@@ -1,0 +1,6 @@
+<svg width="800" height="420" viewBox="0 0 800 420" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="420" fill="#e8f1ec"/>
+  <path d="M100 300 Q 400 60 700 300 T 100 300" fill="none" stroke="#0b3d2e" stroke-width="12"/>
+  <text x="400" y="200" font-family="Georgia, serif" font-size="34" fill="#145341" text-anchor="middle">Perkebunan PT BETAMI</text>
+  <text x="400" y="240" font-family="Inter, sans-serif" font-size="18" fill="#5b6b63" text-anchor="middle">Gambar perkebunan kelapa sawit</text>
+</svg>

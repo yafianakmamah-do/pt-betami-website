@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
+  <defs>
+    <!-- Oil Droplet Golden Gradient -->
+    <linearGradient id="oilDropGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFE066" />
+      <stop offset="45%" stop-color="#F59E0B" />
+      <stop offset="100%" stop-color="#D97706" />
+    </linearGradient>
+
+    <!-- Smooth Leaf Gradient -->
+    <linearGradient id="leafGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#34D399" />
+      <stop offset="35%" stop-color="#10B981" />
+      <stop offset="100%" stop-color="#047857" />
+    </linearGradient>
+
+    <!-- Frond Palm Leaf Color -->
+    <linearGradient id="frondGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6EE7B7" />
+      <stop offset="50%" stop-color="#10B981" />
+      <stop offset="100%" stop-color="#065F46" />
+    </linearGradient>
+
+    <!-- Terracotta / Brown Arc Gradient -->
+    <linearGradient id="arcGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#9C4124" />
+      <stop offset="60%" stop-color="#8B331A" />
+      <stop offset="100%" stop-color="#6B230F" />
+    </linearGradient>
+  </defs>
+
+  <!-- 1. TOP PINNATE PALM FROND (Feathery palm leaf on top) -->
+  <g id="topFrond">
+    <!-- Central Frond Stem -->
+    <path d="M 40 70 Q 95 18 165 42" stroke="#2D6A4F" stroke-width="2.5" stroke-linecap="round" fill="none" />
+    
+    <!-- Left to Right Frond Leaflets (Top side) -->
+    <path d="M 48 64 Q 46 54 42 46" stroke="#2D6A4F" stroke-width="1.8" stroke-linecap="round" />
+    <path d="M 58 56 Q 58 44 54 36" stroke="#2D6A4F" stroke-width="1.8" stroke-linecap="round" />
+    <path d="M 68 49 Q 70 36 67 28" stroke="#2D6A4F" stroke-width="1.8" stroke-linecap="round" />
+    <path d="M 79 43 Q 83 30 81 22" stroke="#2D6A4F" stroke-width="1.8" stroke-linecap="round" />
+    <path d="M 91 38 Q 98 25 97 18" stroke="#2D6A4F" stroke-width="1.8" stroke-linecap="round" />
+    <path d="M 103 35 Q 112 23 113 16" stroke="#2D6A4F" stroke-width="1.8" stroke-linecap="round" />
+    <path d="M 116 34 Q 127 23 129 17" stroke="#2D6A4F" stroke-width="1.8" stroke-linecap="round" />
+    <path d="M 129 34 Q 142 24 146 19" stroke="#2D6A4F" stroke-width="1.8" stroke-linecap="round" />
+    <path d="M 142 36 Q 155 28 160 25" stroke="#2D6A4F" stroke-width="1.8" stroke-linecap="round" />
+    <path d="M 154 39 Q 166 33 172 32" stroke="#2D6A4F" stroke-width="1.8" stroke-linecap="round" />
+
+    <!-- Left to Right Frond Leaflets (Bottom side) -->
+    <path d="M 50 67 Q 54 75 52 82" stroke="#2D6A4F" stroke-width="1.8" stroke-linecap="round" />
+    <path d="M 62 60 Q 68 68 68 76" stroke="#2D6A4F" stroke-width="1.8" stroke-linecap="round" />
+    <path d="M 74 53 Q 82 62 84 70" stroke="#2D6A4F" stroke-width="1.8" stroke-linecap="round" />
+    <path d="M 87 47 Q 96 56 100 64" stroke="#2D6A4F" stroke-width="1.8" stroke-linecap="round" />
+    <path d="M 100 42 Q 111 51 116 59" stroke="#2D6A4F" stroke-width="1.8" stroke-linecap="round" />
+    <path d="M 114 39 Q 126 47 132 55" stroke="#2D6A4F" stroke-width="1.8" stroke-linecap="round" />
+    <path d="M 128 38 Q 141 46 148 53" stroke="#2D6A4F" stroke-width="1.8" stroke-linecap="round" />
+    <path d="M 142 39 Q 155 46 162 52" stroke="#2D6A4F" stroke-width="1.8" stroke-linecap="round" />
+    <path d="M 155 41 Q 167 46 173 51" stroke="#2D6A4F" stroke-width="1.8" stroke-linecap="round" />
+  </g>
+
+  <!-- 2. SMOOTH GREEN PALM LEAF (Curving in middle) -->
+  <g id="smoothLeaf">
+    <!-- Main leaf body -->
+    <path d="M 36 78 C 65 50 115 52 144 82 C 112 108 65 106 36 78 Z" fill="url(#leafGrad)" />
+    <!-- Leaf midrib highlight line -->
+    <path d="M 37 78 Q 90 70 144 82" stroke="#FDE047" stroke-width="1.8" stroke-linecap="round" opacity="0.9" />
+  </g>
+
+  <!-- 3. TERRACOTTA / BROWN CIRCULAR SWOOSH ARC (Bottom & Right) -->
+  <g id="brownArc">
+    <path d="M 34 126 
+             A 66 66 0 1 0 168 62 
+             C 176 72 176 86 174 98
+             A 76 76 0 1 1 24 126
+             Z" fill="url(#arcGrad)" />
+  </g>
+
+  <!-- 4. GOLDEN PALM OIL DROPLET (Hanging on left tip of arc) -->
+  <g id="oilDroplet" transform="translate(26, 92)">
+    <!-- Droplet Teardrop Shape -->
+    <path d="M 12 0 C 12 0 0 16 0 24 C 0 32 6 36 12 36 C 18 36 24 32 24 24 C 24 16 12 0 12 0 Z" fill="url(#oilDropGrad)" />
+    <!-- Droplet Sheen / Inner Highlight -->
+    <ellipse cx="8" cy="22" rx="3.5" ry="5.5" transform="rotate(-25 8 22)" fill="#FFFFFF" opacity="0.6" />
+  </g>
+</svg>
+

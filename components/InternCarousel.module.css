@@ -1,0 +1,40 @@
+.carousel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  position: relative;
+}
+
+.nav {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+.item {
+  cursor: pointer;
+  text-align: center;
+}
+
+.photo {
+  border-radius: 50%;
+}
+
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modalContent {
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 8px;
+  max-width: 90%;
+  text-align: center;
+}

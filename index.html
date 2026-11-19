@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="id">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#173b2e" />
+  <title>PT BETAMI — Buka Website</title>
+  <style>
+    :root {
+      color-scheme: light;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f2f1e9;
+      color: #17251d;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      display: grid;
+      min-height: 100vh;
+      place-items: center;
+      margin: 0;
+      padding: 24px;
+    }
+
+    main {
+      width: min(560px, 100%);
+      padding: clamp(28px, 7vw, 56px);
+      border-top: 5px solid #d3a94c;
+      background: white;
+      box-shadow: 0 24px 70px rgba(23, 37, 29, 0.1);
+    }
+
+    .eyebrow {
+      color: #956f2c;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+    }
+
+    h1 {
+      margin: 16px 0 12px;
+      font-size: clamp(30px, 6vw, 48px);
+      line-height: 0.98;
+      letter-spacing: -0.06em;
+    }
+
+    p,
+    li {
+      color: #62665e;
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    ol {
+      padding-left: 20px;
+      margin: 24px 0;
+    }
+
+    code {
+      color: #173b2e;
+      font-weight: 700;
+    }
+
+    a {
+      display: inline-flex;
+      min-height: 48px;
+      align-items: center;
+      justify-content: center;
+      padding: 0 20px;
+      color: white;
+      background: #173b2e;
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    a:hover {
+      background: #285d47;
+    }
+
+    #status {
+      min-height: 24px;
+      margin-top: 16px;
+      font-size: 12px;
+    }
+  </style>
+</head>
+
+<body>
+  <main>
+    <span class="eyebrow">PT BENIH TAMIANG · ACEH TAMIANG</span>
+    <h1>Jalankan website BETAMI</h1>
+    <p>Live Server hanya menyajikan file statis, bukan aplikasi Next.js. Halaman ini mengarahkan ke website BETAMI saat
+      server Next.js aktif.</p>
+    <ol>
+      <li>Buka terminal di folder proyek PT BETAMI.</li>
+      <li>Jalankan <code>npm run dev</code>.</li>
+      <li>Buka <code>http://127.0.0.1:3000</code>.</li>
+    </ol>
+    <a id="open-app" href="http://127.0.0.1:3000/">Buka website PT BETAMI</a>
+    <p id="status" role="status">Memeriksa aplikasi lokal…</p>
+  </main>
+  <script>
+    const appUrl = 'http://127.0.0.1:3000/';
+    fetch(appUrl, { mode: 'no-cors', cache: 'no-store' })
+      .then(() => window.location.replace(appUrl))
+      .catch(() => {
+        document.getElementById('status').textContent =
+          'Aplikasi Next.js belum berjalan. Jalankan npm run dev, lalu buka tautan di atas.';
+      });
+  </script>
+</body>
+
+</html>

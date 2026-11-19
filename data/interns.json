@@ -1,0 +1,18 @@
+[
+  {
+    "id": "intern-1",
+    "name": "Andi Pratama",
+    "experience": "Selama menjalani magang di unit Pabrik Kelapa Sawit (PKS) BETAMI, saya dibimbing langsung oleh teknisi senior dalam memahami proses penerimaan TBS hingga pengolahan CPO. Pengalaman praktik lapangan dan pemahaman standar K3 di sini memberi bekal nyata yang sangat berharga bagi kesiapan karier saya.",
+    "photo_url": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=600&fit=crop&crop=face",
+    "photoUrl": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=600&fit=crop&crop=face",
+    "is_published": true
+  },
+  {
+    "id": "intern-2",
+    "name": "Siti Nurhaliza",
+    "experience": "Pengalaman magang di laboratorium kendali mutu (QC) BETAMI sangat membuka wawasan saya mengenai pengujian parameter asam lemak bebas (FFA), kadar air, dan standar mutu CPO. Lingkungan kerja profesional dan bimbingan yang terstruktur membuat proses belajar menjadi sangat terarah.",
+    "photo_url": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=600&h=600&fit=crop&crop=face",
+    "photoUrl": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=600&h=600&fit=crop&crop=face",
+    "is_published": true
+  }
+]
