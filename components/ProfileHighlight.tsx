@@ -51,7 +51,7 @@ export default function ProfileHighlight() {
                 <div key={f.label} className="flex items-start gap-2.5 bg-slate-50 border border-slate-200 rounded-lg px-3 py-2.5">
                   <f.icon className="w-4 h-4 text-teal-700 shrink-0 mt-0.5" />
                   <div className="min-w-0">
-                    <div className="text-[10.5px] uppercase tracking-wider font-bold text-slate-500">{f.label}</div>
+                    <div className="text-xs uppercase tracking-wider font-bold text-slate-600">{f.label}</div>
                     <div className="text-[12.5px] font-semibold text-slate-800 leading-snug">{f.value}</div>
                   </div>
                 </div>

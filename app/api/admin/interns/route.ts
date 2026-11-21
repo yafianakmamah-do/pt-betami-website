@@ -3,15 +3,22 @@ import path from 'path';
 import { NextResponse } from 'next/server';
 import { randomUUID } from 'crypto';
 import { readInterns, writeInterns } from '@/lib/internsStorage';
+import { requireAdmin } from '@/lib/supabase/admin';
 
 export const dynamic = 'force-dynamic';
 
 export async function GET() {
+  const access = await requireAdmin();
+  if (access.response) return access.response;
+
   const interns = readInterns();
   return NextResponse.json({ ok: true, items: interns });
 }
 
 export async function POST(request: Request) {
+  const access = await requireAdmin();
+  if (access.response) return access.response;
+
   try {
     const contentType = request.headers.get('content-type') || '';
     let name = '';
@@ -77,6 +84,9 @@ export async function POST(request: Request) {
 }
 
 export async function DELETE(request: Request) {
+  const access = await requireAdmin();
+  if (access.response) return access.response;
+
   try {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');

@@ -127,7 +127,7 @@ export default function ContactPage() {
   return (
     <main className="cinematic-page cinematic-page--contact">
       <EditorialHero
-        image="/images/estate-jambi.jpg"
+        image="/images/pks-factory-real.jpg"
         title={lang === 'id' ? 'Kontak Kami' : 'Contact Us'}
         description={
           lang === 'id'
@@ -167,7 +167,7 @@ export default function ContactPage() {
                   </div>
                   <div className="flex items-center gap-2">
                     <Mail className="w-3.5 h-3.5 text-teal-700 shrink-0" />
-                    <span>{t.hqEmail}</span>
+                    <a href={`mailto:${t.hqEmail}`} className="hover:text-teal-700 hover:underline">{t.hqEmail}</a>
                   </div>
                   <div className="flex items-center gap-2">
                     <Clock className="w-3.5 h-3.5 text-teal-700 shrink-0" />
@@ -199,6 +199,39 @@ export default function ContactPage() {
                     <span>{t.millHours}</span>
                   </div>
                 </div>
+              </div>
+
+              <div className="p-6 bg-slate-50 border border-slate-200 rounded-2xl shadow-sm">
+                <div className="w-9 h-9 rounded-xl border border-teal-600 text-teal-700 flex items-center justify-center mb-3">
+                  <MapPin className="w-5 h-5" />
+                </div>
+                <h3 className="text-base font-bold text-slate-900 mb-1">
+                  {lang === 'id' ? 'Lokasi Operasional BETAMI' : 'BETAMI Operating Location'}
+                </h3>
+                <p className="text-xs text-slate-600 mb-4">{t.hqAddress}</p>
+                <div className="relative w-full h-[240px] rounded-xl overflow-hidden border border-slate-200">
+                  <iframe
+                    title={
+                      lang === 'id'
+                        ? 'Peta lokasi Pabrik Kelapa Sawit PT BETAMI di Suka Rakyat, Kecamatan Rantau'
+                        : 'Map to PT BETAMI Palm Oil Mill in Suka Rakyat, Rantau District'
+                    }
+                    src="https://maps.google.com/maps?q=4.2843294%2C98.0998572&z=16&output=embed"
+                    className="absolute inset-0 w-full h-full border-0"
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    allowFullScreen
+                  />
+                </div>
+                <a
+                  href="https://www.google.com/maps/search/?api=1&query=4.2843294%2C98.0998572"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-1.5 mt-3 text-xs font-semibold text-teal-700 hover:text-teal-800 transition"
+                >
+                  {lang === 'id' ? 'Buka di Google Maps' : 'Open in Google Maps'}
+                  <ExternalLink aria-hidden="true" className="w-3.5 h-3.5" />
+                </a>
               </div>
             </div>
 
@@ -236,9 +269,8 @@ export default function ContactPage() {
                             setFormData({ ...formData, name: e.target.value });
                             if (fieldErrors.name) setFieldErrors({ ...fieldErrors, name: '' });
                           }}
-                          className={`w-full px-3 py-2 border rounded-xl text-xs bg-white focus:outline-none transition ${
-                            fieldErrors.name ? 'border-rose-400 ring-2 ring-rose-400/10' : 'border-slate-300 focus:border-teal-600'
-                          }`}
+                          className={`w-full px-3 py-2 border rounded-xl text-xs bg-white focus:outline-none transition ${fieldErrors.name ? 'border-rose-400 ring-2 ring-rose-400/10' : 'border-slate-300 focus:border-teal-600'
+                            }`}
                         />
                         {fieldErrors.name && (
                           <p className="text-[11px] font-semibold text-rose-600 mt-1">{fieldErrors.name}</p>
@@ -271,9 +303,8 @@ export default function ContactPage() {
                             setFormData({ ...formData, email: e.target.value });
                             if (fieldErrors.email) setFieldErrors({ ...fieldErrors, email: '' });
                           }}
-                          className={`w-full px-3 py-2 border rounded-xl text-xs bg-white focus:outline-none transition ${
-                            fieldErrors.email ? 'border-rose-400 ring-2 ring-rose-400/10' : 'border-slate-300 focus:border-teal-600'
-                          }`}
+                          className={`w-full px-3 py-2 border rounded-xl text-xs bg-white focus:outline-none transition ${fieldErrors.email ? 'border-rose-400 ring-2 ring-rose-400/10' : 'border-slate-300 focus:border-teal-600'
+                            }`}
                         />
                         {fieldErrors.email && (
                           <p className="text-[11px] font-semibold text-rose-600 mt-1">{fieldErrors.email}</p>
@@ -292,9 +323,8 @@ export default function ContactPage() {
                             setFormData({ ...formData, phone: e.target.value });
                             if (fieldErrors.phone) setFieldErrors({ ...fieldErrors, phone: '' });
                           }}
-                          className={`w-full px-3 py-2 border rounded-xl text-xs bg-white focus:outline-none transition ${
-                            fieldErrors.phone ? 'border-rose-400 ring-2 ring-rose-400/10' : 'border-slate-300 focus:border-teal-600'
-                          }`}
+                          className={`w-full px-3 py-2 border rounded-xl text-xs bg-white focus:outline-none transition ${fieldErrors.phone ? 'border-rose-400 ring-2 ring-rose-400/10' : 'border-slate-300 focus:border-teal-600'
+                            }`}
                         />
                         {fieldErrors.phone && (
                           <p className="text-[11px] font-semibold text-rose-600 mt-1">{fieldErrors.phone}</p>
@@ -330,9 +360,8 @@ export default function ContactPage() {
                           setFormData({ ...formData, message: e.target.value });
                           if (fieldErrors.message) setFieldErrors({ ...fieldErrors, message: '' });
                         }}
-                        className={`w-full px-3 py-2 border rounded-xl text-xs bg-white focus:outline-none transition ${
-                          fieldErrors.message ? 'border-rose-400 ring-2 ring-rose-400/10' : 'border-slate-300 focus:border-teal-600'
-                        }`}
+                        className={`w-full px-3 py-2 border rounded-xl text-xs bg-white focus:outline-none transition ${fieldErrors.message ? 'border-rose-400 ring-2 ring-rose-400/10' : 'border-slate-300 focus:border-teal-600'
+                          }`}
                       />
                       {fieldErrors.message && (
                         <p className="text-[11px] font-semibold text-rose-600 mt-1">{fieldErrors.message}</p>
@@ -371,38 +400,6 @@ export default function ContactPage() {
             </div>
           </div>
 
-          {/* Location Map */}
-          <div className="contact-location mt-16">
-            <div className="contact-location__heading">
-              <div>
-                <span className="editorial-kicker">{lang === 'id' ? 'TEMUKAN KAMI' : 'FIND US'}</span>
-                <h2>{lang === 'id' ? 'Lokasi Operasional BETAMI' : 'BETAMI Operating Location'}</h2>
-                <p>{t.hqAddress}</p>
-              </div>
-              <a
-                href="https://www.google.com/maps/search/?api=1&query=73PX%2BGQF%2C+Desa+Kebun+Rantau%2C+Aceh+Tamiang"
-                target="_blank"
-                rel="noreferrer"
-                className="contact-location__link"
-              >
-                {lang === 'id' ? 'Buka di Google Maps' : 'Open in Google Maps'}
-                <ExternalLink aria-hidden="true" />
-              </a>
-            </div>
-            <div className="contact-location__map">
-              <iframe
-                title={
-                  lang === 'id'
-                    ? 'Peta lokasi operasional PT BETAMI di Desa Kebun Rantau'
-                    : 'Map to PT BETAMI operations in Kebun Rantau Village'
-                }
-                src="https://maps.google.com/maps?q=73PX%2BGQF%2C%20Desa%20Kebun%20Rantau%2C%20Aceh%20Tamiang&z=15&output=embed"
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                allowFullScreen
-              />
-            </div>
-          </div>
         </div>
       </section>
     </main>

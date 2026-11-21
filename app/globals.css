@@ -73,6 +73,104 @@
   --betami-header-height: 116px;
 }
 
+/* ===== Dekorasi latar publik: seni daun sawit + logo BETAMI blur =====
+   Lapisan ini berada di bawah header (z-index 60) dan tidak menerima klik.
+   Versi gelap memakai blend multiply untuk area terang; versi terang
+   memakai blend screen supaya tetap terlihat halus di area gelap. */
+.site-atmosphere {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.site-atmosphere > div {
+  position: absolute;
+  pointer-events: none;
+  background-repeat: no-repeat;
+}
+
+.site-atmosphere__palm {
+  inset: -12%;
+  background-image: url('/images/palm-pattern.svg');
+  background-size: 260px 260px;
+}
+
+.site-atmosphere__palm--dark {
+  opacity: 0.05;
+  mix-blend-mode: multiply;
+}
+
+.site-atmosphere__palm--light {
+  opacity: 0.045;
+  filter: invert(1) brightness(1.6);
+  mix-blend-mode: screen;
+}
+
+.site-atmosphere__frond {
+  width: min(38vw, 440px);
+  aspect-ratio: 1;
+  background-image: url('/images/logo-emblem.svg');
+  background-position: center;
+  background-size: contain;
+  filter: blur(7px);
+}
+
+.site-atmosphere__frond--one {
+  top: -13%;
+  right: -9%;
+  opacity: 0.055;
+  mix-blend-mode: multiply;
+  transform: rotate(18deg);
+}
+
+.site-atmosphere__frond--two {
+  bottom: -16%;
+  left: -11%;
+  opacity: 0.05;
+  mix-blend-mode: multiply;
+  transform: rotate(-145deg);
+}
+
+.site-atmosphere__logo {
+  top: 52%;
+  left: 50%;
+  width: min(52vw, 620px);
+  height: 170px;
+  background-position: center;
+  background-size: contain;
+  filter: blur(9px);
+  transform: translate(-50%, -50%);
+}
+
+.site-atmosphere__logo--dark {
+  background-image: url('/images/logo-betami-official.svg');
+  opacity: 0.055;
+  mix-blend-mode: multiply;
+}
+
+.site-atmosphere__logo--light {
+  background-image: url('/images/logo-white.svg');
+  opacity: 0.07;
+  mix-blend-mode: screen;
+}
+
+@media (max-width: 640px) {
+  .site-atmosphere__palm {
+    background-size: 190px 190px;
+  }
+
+  .site-atmosphere__frond {
+    width: 62vw;
+  }
+
+  .site-atmosphere__logo {
+    width: 86vw;
+    height: 110px;
+  }
+}
+
 html {
   scroll-padding-top: calc(var(--betami-header-height) + 18px);
 }
@@ -208,7 +306,7 @@ select:focus-visible {
   justify-content: space-between;
   min-height: 54px;
   color: var(--betami-gold);
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.14em;
 }
@@ -243,13 +341,35 @@ select:focus-visible {
 
 .mobile-site-menu nav a span {
   color: var(--betami-gold);
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: 0.12em;
 }
 
+.mobile-site-menu__sub {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 4px 0 12px 40px;
+}
+
+.mobile-site-menu__sub a {
+  display: block;
+  padding: 6px 0;
+  border-bottom: none;
+  color: rgba(255, 255, 255, 0.82);
+  font-size: clamp(14px, 4vw, 18px);
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+.mobile-site-menu__sub a:hover,
+.mobile-site-menu__sub a:focus-visible {
+  color: var(--betami-gold);
+}
+
 .mobile-site-menu > p {
-  color: rgba(255, 255, 255, 0.5);
-  font-size: 10px;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 12px;
   letter-spacing: 0.14em;
 }
 
@@ -297,7 +417,7 @@ select:focus-visible {
 .home-opening__scrim {
   z-index: 2;
   background:
-    linear-gradient(180deg, rgba(0, 0, 0, 0.46) 0%, rgba(0, 0, 0, 0.08) 30%, rgba(0, 0, 0, 0.25) 56%, #050706 100%),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.52) 0%, rgba(0, 0, 0, 0.35) 30%, rgba(0, 0, 0, 0.32) 56%, #050706 100%),
     linear-gradient(90deg, rgba(2, 14, 9, 0.5), transparent 70%);
 }
 
@@ -314,8 +434,8 @@ select:focus-visible {
 .home-opening__topline {
   z-index: 7;
   top: clamp(26px, 5vh, 58px);
-  color: rgba(255, 255, 255, 0.82);
-  font-size: 10px;
+  color: rgba(255, 255, 255, 0.95);
+  font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.15em;
 }
@@ -390,22 +510,6 @@ select:focus-visible {
   text-underline-offset: 5px;
 }
 
-.home-opening__wordmark {
-  position: absolute;
-  z-index: 4;
-  right: 3vw;
-  bottom: 10%;
-  left: 3vw;
-  margin: 0;
-  color: white;
-  font-size: clamp(66px, 19.2vw, 270px);
-  font-weight: 900;
-  line-height: 0.76;
-  letter-spacing: -0.095em;
-  text-align: center;
-  white-space: nowrap;
-}
-
 .home-opening__bottom {
   z-index: 9;
   bottom: 28px;
@@ -426,15 +530,15 @@ select:focus-visible {
 .home-opening__facts small,
 .home-opening__scroll,
 .home-opening__caption {
-  color: rgba(255, 255, 255, 0.66);
-  font-size: 9px;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.14em;
 }
 
 .home-opening__facts strong {
   color: white;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 700;
 }
 
@@ -687,12 +791,14 @@ select:focus-visible {
 
 .sustainability-story__photo--main span {
   position: absolute;
+  z-index: 2;
   bottom: 15px;
   left: 16px;
   color: white;
-  font-size: 9px;
+  font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.14em;
+  text-shadow: 0 1px 5px rgba(0, 0, 0, 0.9);
 }
 
 .sustainability-story__photo--overlap {
@@ -1012,20 +1118,37 @@ select:focus-visible {
 }
 
 .editorial-hero__image,
+.editorial-hero__photo,
 .editorial-hero__shade {
   position: absolute;
   inset: 0;
 }
 
-.editorial-hero__image {
+.editorial-hero__image,
+.editorial-hero__photo {
+  z-index: 0;
   overflow: hidden;
 }
 
+.editorial-hero__photo {
+  background-position: center;
+  background-size: cover;
+}
+
 .editorial-hero__shade {
+  z-index: 1;
   background: linear-gradient(90deg, rgba(4, 12, 8, 0.68), rgba(4, 12, 8, 0.06) 85%), linear-gradient(0deg, rgba(4, 12, 8, 0.6), transparent 80%);
 }
 
+.cinematic-page--career > .editorial-hero .editorial-hero__shade,
+.cinematic-page--internship > .editorial-hero .editorial-hero__shade {
+  background:
+    linear-gradient(90deg, rgba(4, 12, 8, 0.86), rgba(4, 12, 8, 0.28) 72%, rgba(4, 12, 8, 0.12)),
+    linear-gradient(0deg, rgba(4, 12, 8, 0.72), transparent 82%);
+}
+
 .editorial-hero__content {
+  z-index: 2;
   position: absolute;
   right: var(--betami-gutter);
   bottom: clamp(50px, 10vh, 110px);
@@ -1038,7 +1161,7 @@ select:focus-visible {
   display: block;
   margin-bottom: 18px;
   color: var(--betami-gold);
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 800;
   letter-spacing: 0.17em;
 }
@@ -1063,8 +1186,8 @@ select:focus-visible {
   position: absolute;
   right: 0;
   bottom: 2px;
-  color: rgba(255, 255, 255, 0.7);
-  font-size: 9px;
+  color: rgba(255, 255, 255, 0.88);
+  font-size: 12px;
   letter-spacing: 0.16em;
 }
 
@@ -1132,9 +1255,10 @@ select:focus-visible {
   top: 16px;
   left: 16px;
   color: white;
-  font-size: 9px;
+  font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.12em;
+  text-shadow: 0 1px 5px rgba(0, 0, 0, 0.9), 0 0 14px rgba(0, 0, 0, 0.65);
 }
 
 .internship-portfolio {
@@ -1335,10 +1459,6 @@ select:focus-visible {
     min-height: 580px;
   }
 
-  .home-opening__wordmark {
-    font-size: clamp(64px, 18vw, 170px);
-  }
-
   .home-opening__facts {
     max-width: 65%;
   }
@@ -1408,13 +1528,6 @@ select:focus-visible {
     font-size: 16px;
   }
 
-  .home-opening__wordmark {
-    right: 8px;
-    bottom: 14%;
-    left: 8px;
-    font-size: clamp(56px, 17.4vw, 110px);
-  }
-
   .home-opening__bottom {
     bottom: 18px;
     align-items: flex-end;
@@ -1432,23 +1545,27 @@ select:focus-visible {
   }
 
   .home-opening__facts strong {
-    font-size: 10px;
+    font-size: 12px;
+  }
+
+  .home-opening__facts small {
+    font-size: 11px;
   }
 
   .home-opening__scroll {
-    max-width: 85px;
-    font-size: 8px;
+    max-width: 95px;
+    font-size: 11px;
     line-height: 1.5;
     text-align: right;
   }
 
   .home-opening__caption {
     min-height: 48px;
-    font-size: 8px;
+    font-size: 11px;
   }
 
   .home-opening__caption a {
-    font-size: 8px;
+    font-size: 11px;
   }
 
   .operations-story__inner {
@@ -1602,7 +1719,6 @@ select:focus-visible {
   .editorial-hero__image,
   .editorial-hero__content,
   .home-opening__copy,
-  .home-opening__wordmark,
   .scroll-reveal,
   .gallery-editorial-item,
   [data-site-reveal],
@@ -1689,13 +1805,13 @@ body:has(.cinematic-home) .home-opening__photo img {
 
 body:has(.cinematic-home) .home-opening__scrim {
   background:
-    linear-gradient(180deg, rgba(5, 12, 8, 0.08) 8%, rgba(5, 12, 8, 0.08) 34%, rgba(5, 12, 8, 0.56) 67%, #080b09 100%),
+    linear-gradient(180deg, rgba(5, 12, 8, 0.5) 8%, rgba(5, 12, 8, 0.35) 34%, rgba(5, 12, 8, 0.56) 67%, #080b09 100%),
     linear-gradient(90deg, rgba(5, 12, 8, 0.43), transparent 78%);
 }
 
 body:has(.cinematic-home) .home-opening__topline {
   top: clamp(125px, 16vh, 170px);
-  font-size: 10px;
+  font-size: 12px;
   letter-spacing: 0.18em;
 }
 
@@ -1709,12 +1825,6 @@ body:has(.cinematic-home) .home-opening__copy > p {
   font-weight: 500;
 }
 
-body:has(.cinematic-home) .home-opening__wordmark {
-  bottom: 12%;
-  font-size: clamp(68px, 17.5vw, 240px);
-  letter-spacing: -0.09em;
-}
-
 body:has(.cinematic-home) .home-opening__bottom {
   bottom: 24px;
 }
@@ -1722,8 +1832,8 @@ body:has(.cinematic-home) .home-opening__bottom {
 body:has(.cinematic-home) .home-opening__caption {
   min-height: 54px;
   padding: 0 var(--betami-gutter);
-  color: rgba(255, 255, 255, 0.68);
-  font-size: 10px;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 12px;
   letter-spacing: 0.13em;
 }
 
@@ -1889,18 +1999,11 @@ body:has(.cinematic-home) .home-opening__caption {
 
   body:has(.cinematic-home) .home-opening__topline {
     top: 138px;
-    font-size: 8px;
+    font-size: 11px;
   }
 
   body:has(.cinematic-home) .home-opening__copy {
     bottom: 205px;
-  }
-
-  body:has(.cinematic-home) .home-opening__wordmark {
-    right: 4px;
-    bottom: 14%;
-    left: 4px;
-    font-size: clamp(58px, 17vw, 100px);
   }
 
   body:has(.cinematic-home) .home-opening__facts {
@@ -1961,7 +2064,7 @@ body:has(.cinematic-home) .home-opening__caption {
   padding: 0 20px;
   border: 1px solid rgba(255, 255, 255, 0.72);
   color: white;
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 750;
   letter-spacing: 0.04em;
   transition: color 220ms ease, background-color 220ms ease, border-color 220ms ease;
@@ -2048,7 +2151,7 @@ body:has(.cinematic-home) .home-opening__caption {
 
 .editorial-kicker {
   color: #956f2c;
-  font-size: 9px;
+  font-size: 12px;
   font-weight: 850;
   letter-spacing: 0.17em;
 }
@@ -3231,10 +3334,6 @@ body:has(.cinematic-home) .home-opening__caption {
   font-size: clamp(42px, 7.2vw, 88px);
 }
 
-.cinematic-home .home-opening__wordmark {
-  font-size: clamp(64px, 15vw, 205px);
-}
-
 .contact-location {
   margin-top: clamp(48px, 7vw, 88px);
   padding-top: clamp(32px, 5vw, 56px);
@@ -3325,9 +3424,6 @@ body:has(.cinematic-home) .home-opening__caption {
     height: 340px;
   }
 
-  .cinematic-home .home-opening__wordmark {
-    font-size: clamp(58px, 16vw, 100px);
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -3339,6 +3435,13 @@ body:has(.cinematic-home) .home-opening__caption {
 body:has(.admin-portal) .site-header,
 body:has(.admin-portal) .site-security-notice,
 body:has(.admin-portal) .site-footer {
+  display: none;
+}
+
+/* Halaman login admin tanpa header publik & footer */
+body:has(.admin-login-shell) .site-header,
+body:has(.admin-login-shell) .site-security-notice,
+body:has(.admin-login-shell) .site-footer {
   display: none;
 }
 
@@ -3368,30 +3471,34 @@ h3 {
   font-weight: 700;
 }
 
-/* Label kecil agar lebih jelas dan tidak terlalu kecil */
-.text-xs, .text-\\[10px\\], .text-\\[11px\\], .text-\\[12px\\] {
-  font-size: 0.875rem !important;
+/* Label kecil di area publik agar lebih jelas.
+   Scoped ke publik agar tidak mengubah badge/tabel admin yang memang perlu kecil.
+   Tanpa !important supaya aturan khusus section tetap menang. */
+main .text-xs,
+main .text-\[10px\],
+main .text-\[11px\],
+main .text-\[12px\],
+.site-header .text-xs,
+.site-footer .text-xs,
+.site-security-notice .text-xs {
+  font-size: 0.875rem;
   line-height: 1.5;
 }
 
-/* Teks abu-abu gelap agar kontras lebih baik pada background putih */
-.text-slate-600 {
-  color: #475569 !important;
+/* slate-400 terlalu pucat di atas background putih.
+   Batasi ke area publik terang; dropdown gelap di navbar sengaja tidak diubah. */
+main .text-slate-400,
+.site-security-notice .text-slate-400 {
+  color: #64748b;
 }
 
-.text-slate-700 {
-  color: #334155 !important;
+/* Teal muda di atas background gelap dibuat solid agar tidak dobel opacity. */
+main .text-teal-50\/90 {
+  color: #f0fdfa;
 }
 
-.text-slate-500 {
-  color: #64748b !important;
-}
-
-/* Teks abu-abu gelap pada background gelap (teal-900, bg-slate-950, dll) agar tetap terbaca */
-.text-teal-50/90,
-.text-teal-100/70,
-.text-slate-400 {
-  opacity: 0.9 !important;
+main .text-teal-100\/70 {
+  color: #ccfbf1;
 }
 
 /* Link dan tombol teks agar jelas tujuannya */
@@ -3410,18 +3517,42 @@ select:focus-visible {
 }
 
 /* ===== Halaman Magang (link-only) ===== */
+.cinematic-page--career .editorial-hero__content h1.magang-hero-title,
+.cinematic-page--internship .editorial-hero__content h1.magang-hero-title {
+  max-width: 900px;
+  font-size: clamp(40px, 6vw, 72px);
+  line-height: 1.04;
+  letter-spacing: -0.05em;
+  margin-bottom: 6px;
+}
+
 .magang-hero-title {
   font-size: clamp(40px, 8vw, 72px);
   line-height: 1.1;
   font-weight: 900;
   letter-spacing: -0.04em;
-  color: #0f172a;
+  color: #ffffff;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.65);
 }
 
-.magang-hero-desc {
+/* Tombol WhatsApp tidak boleh menempel ke judul/deskripsi */
+.cinematic-page--career > .editorial-hero .editorial-hero__actions,
+.cinematic-page--internship > .editorial-hero .editorial-hero__actions {
+  margin-top: 44px;
+}
+
+@media (max-width: 640px) {
+  .cinematic-page--career > .editorial-hero .editorial-hero__actions,
+  .cinematic-page--internship > .editorial-hero .editorial-hero__actions {
+    margin-top: 32px;
+  }
+}
+
+.editorial-hero__content p.magang-hero-desc {
   font-size: clamp(16px, 1.8vw, 20px);
   line-height: 1.6;
-  color: #334155;
+  color: rgba(255, 255, 255, 0.94);
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.6);
   max-width: 640px;
 }
 

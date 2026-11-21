@@ -116,6 +116,7 @@ export interface TranslationSchema {
     speed: string;
     speechSupported: string;
     speechNotSupported: string;
+    speechFailed: string;
   };
   footer: {
     companyDesc: string;
@@ -248,6 +249,7 @@ export const translations: Record<Language, TranslationSchema> = {
       speed: 'Kecepatan Suara',
       speechSupported: 'Web Speech API Siap',
       speechNotSupported: 'Browser Anda belum mendukung fitur pembacaan suara otomatis.',
+      speechFailed: 'Suara tidak dapat diputar. Periksa volume browser atau coba lagi.',
     },
     footer: {
       companyDesc: 'PT Benih Tamiang (BETAMI) mengoperasikan Pabrik Kelapa Sawit (PKS) di Kecamatan Rantau, Kabupaten Aceh Tamiang, dengan fokus pada pengolahan TBS, produk CPO, dan kontribusi bagi masyarakat sekitar.',
@@ -257,7 +259,7 @@ export const translations: Record<Language, TranslationSchema> = {
       addressOffice: 'Desa Kebun Rantau, Kec. Rantau, Kab. Aceh Tamiang, NAD 24453 (ref: 73PX+GQF)',
       addressPlantation: 'Wilayah interaksi: Desa Suka Jadi, Benua Raja, Durian (Kec. Rantau, Aceh Tamiang)',
       phone: 'Hubungi melalui formulir kontak website',
-      email: '— (saluran resmi via formulir website)',
+      email: 'pt.betami@gmail.com',
       rights: 'Seluruh hak cipta dilindungi.',
       sustainableBadge: 'Berkomitmen pada operasional bertanggung jawab dan kepedulian sosial',
     },
@@ -378,6 +380,7 @@ export const translations: Record<Language, TranslationSchema> = {
       speed: 'Voice Speed',
       speechSupported: 'Web Speech API Ready',
       speechNotSupported: 'Your browser does not currently support automatic speech synthesis.',
+      speechFailed: 'Audio could not be played. Check your browser volume or try again.',
     },
     footer: {
       companyDesc: 'PT Benih Tamiang (BETAMI) operates a Palm Oil Mill (PKS) in Rantau District, Aceh Tamiang Regency, focused on FFB processing, CPO products, and contribution to surrounding communities.',
@@ -387,7 +390,7 @@ export const translations: Record<Language, TranslationSchema> = {
       addressOffice: 'Desa Kebun Rantau, Rantau District, Aceh Tamiang Regency, NAD 24453 (ref: 73PX+GQF)',
       addressPlantation: 'Engagement area: Suka Jadi, Benua Raja, Durian villages (Rantau District, Aceh Tamiang)',
       phone: 'Contact via website form',
-      email: '— (official channel via website form)',
+      email: 'pt.betami@gmail.com',
       rights: 'All rights reserved.',
       sustainableBadge: 'Committed to responsible operations and social care',
     },

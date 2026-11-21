@@ -51,6 +51,7 @@ export default function Hero() {
           className="home-opening__brand-watermark"
         />
         <div className="home-opening__scrim" />
+        <h1 className="sr-only">PT Benih Tamiang (BETAMI)</h1>
         <motion.div
           className="home-opening__topline"
           initial={reduceMotion ? false : { opacity: 0, y: -12 }}
@@ -76,14 +77,6 @@ export default function Hero() {
             </Link>
           </div>
         </motion.div>
-        <motion.h1
-          className="home-opening__wordmark"
-          initial={reduceMotion ? false : { opacity: 0, y: 30, scale: 0.97 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{ duration: reduceMotion ? 0 : 1, delay: reduceMotion ? 0 : 0.22, ease: [0.22, 1, 0.36, 1] }}
-        >
-          BETAMI
-        </motion.h1>
         <motion.div
           className="home-opening__bottom"
           initial={reduceMotion ? false : { opacity: 0, y: 18 }}

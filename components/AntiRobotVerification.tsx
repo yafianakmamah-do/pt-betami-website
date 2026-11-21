@@ -78,7 +78,7 @@ export default function AntiRobotVerification({
             >
               {lang === 'id' ? 'Saya bukan robot' : "I'm not a robot"}
             </span>
-            <span className="text-[10px] text-slate-500 flex items-center gap-1">
+            <span className="text-xs text-slate-500 flex items-center gap-1">
               <Lock className="w-2.5 h-2.5 text-teal-700" />
               {isVerified
                 ? lang === 'id'
@@ -91,12 +91,12 @@ export default function AntiRobotVerification({
           </div>
         </div>
 
-        <div className="flex flex-col items-end pl-3 border-l border-slate-200/80 text-[9px] text-slate-400">
+        <div className="flex flex-col items-end pl-3 border-l border-slate-200/80 text-[11px] text-slate-600">
           <div className="flex items-center gap-1 text-teal-700 font-bold">
             <ShieldCheck className="w-4 h-4" />
             <span className="tracking-wide">BETAMI</span>
           </div>
-          <span className="text-[8px] text-slate-400">Security Check</span>
+          <span className="text-[11px] text-slate-600">Security Check</span>
         </div>
       </div>
 

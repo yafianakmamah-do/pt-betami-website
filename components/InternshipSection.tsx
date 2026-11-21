@@ -34,7 +34,7 @@ export default function InternshipSection() {
           <SmartInternCarousel lang={lang} />
         </div>
 
-        {/* Action Button & Map Location */}
+        {/* Action Button */}
         <div className="text-center pt-4">
           <Link
             href="/magang"
@@ -45,27 +45,6 @@ export default function InternshipSection() {
           </Link>
         </div>
 
-        {/* Map Location */}
-        <div className="mt-16">
-          <div className="relative w-full h-[280px] sm:h-[360px] rounded-3xl overflow-hidden border border-slate-200 shadow-md">
-            <iframe
-              title={
-                lang === 'id'
-                  ? 'Lokasi PT BETAMI (Desa Kebun Rantau, Aceh Tamiang)'
-                  : 'PT BETAMI location (Kebun Rantau Village, Aceh Tamiang)'
-              }
-              src="https://maps.google.com/maps?q=73PX%2BGQF%2C%20Desa%20Kebun%20Rantau%2C%20Aceh%20Tamiang&z=15&output=embed"
-              className="absolute inset-0 w-full h-full border-0"
-              loading="lazy"
-              allowFullScreen
-            />
-          </div>
-          <p className="text-[11px] text-slate-500 mt-3 italic text-center">
-            {lang === 'id'
-              ? 'Lokasi: Desa Kebun Rantau, Kec. Rantau, Kab. Aceh Tamiang, NAD.'
-              : 'Location: Desa Kebun Rantau, Rantau District, Aceh Tamiang Regency, NAD.'}
-          </p>
-        </div>
       </div>
     </section>
   );

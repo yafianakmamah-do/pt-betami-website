@@ -1,19 +1,15 @@
-import { createClient } from '@supabase/supabase-js';
-import { createSupabaseServerClient } from '@/lib/supabase/server';
+import { requireAdmin } from '@/lib/supabase/admin';
 
 export async function GET() {
-  const supabase = await createSupabaseServerClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  
-  if (!user || user.app_metadata.role !== 'admin') {
-    return Response.json({ error: 'Unauthorized' }, { status: 401 });
-  }
+  const access = await requireAdmin();
+  if (access.response) return access.response;
 
-  const [messagesRes, applicationsRes, internsRes, galleryRes] = await Promise.all([
-    supabase.from('contact_messages').select('id,name,company,email,phone,topic,message,status,created_at').order('created_at', { ascending: false }),
-    supabase.from('internship_applications').select('id,name,institution,major,email,phone,division,duration,message,status,created_at').order('created_at', { ascending: false }),
-    supabase.from('interns').select('id,name,university,major,period,location,experience,photo_url,photo_storage_path,is_published,created_at').order('created_at', { ascending: false }),
-    supabase.from('gallery_items').select('id,image_url,storage_path,category,title_id,title_en,description_id,description_en,is_published,created_at').order('created_at', { ascending: false }),
+  const [messagesRes, applicationsRes, internsRes, galleryRes, jobsRes] = await Promise.all([
+    access.client.from('contact_messages').select('id,name,company,email,phone,topic,message,status,created_at').order('created_at', { ascending: false }),
+    access.client.from('internship_applications').select('id,name,institution,major,email,phone,division,duration,message,status,created_at').order('created_at', { ascending: false }),
+    access.client.from('interns').select('id,name,university,major,period,location,experience,photo_url,photo_storage_path,is_published,created_at').order('created_at', { ascending: false }),
+    access.client.from('gallery_items').select('id,image_url,storage_path,category,title_id,title_en,description_id,description_en,is_published,created_at').order('created_at', { ascending: false }),
+    access.client.from('job_applications').select('id,name,email,phone,position,status,created_at').order('created_at', { ascending: false }),
   ]);
 
   return Response.json({
@@ -21,5 +17,7 @@ export async function GET() {
     applications: applicationsRes.data || [],
     interns: internsRes.data || [],
     gallery: galleryRes.data || [],
+    jobs: jobsRes.error ? [] : jobsRes.data || [],
+    jobsWarning: jobsRes.error ? 'Tabel lamaran kerja belum tersedia di Supabase. Jalankan supabase/migration_admin_features.sql.' : '',
   }, { headers: { 'Cache-Control': 'no-store' } });
 }

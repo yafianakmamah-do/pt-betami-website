@@ -29,6 +29,7 @@ export default function SustainabilitySection() {
             <ScrollParallax className="absolute inset-0 scale-[1.08]" distance={20}>
               <Image src="/images/kegiatan/csr-betami-juli-2026.jpeg" alt={lang === 'id' ? 'Dokumentasi kegiatan sosial PT BETAMI' : 'PT BETAMI community initiative documentation'} fill quality={75} sizes="(max-width: 900px) 100vw, 55vw" className="object-cover" />
             </ScrollParallax>
+            <div className="absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-black/85 via-black/35 to-transparent" />
             <span>{lang === 'id' ? 'KEGIATAN SOSIAL · ACEH TAMIANG' : 'COMMUNITY · ACEH TAMIANG'}</span>
           </div>
           <div className="sustainability-story__photo sustainability-story__photo--overlap">

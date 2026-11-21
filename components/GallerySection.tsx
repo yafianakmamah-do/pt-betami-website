@@ -31,7 +31,7 @@ export const authenticGallery = [
   { id: 20, src: '/images/cpo-product.jpg', category: 'product', titleId: 'Produk CPO', titleEn: 'CPO Product', descId: 'Crude Palm Oil (CPO) hasil olahan pabrik.', descEn: 'Crude Palm Oil output from the mill.' },
   { id: 21, src: '/images/factory.jpg', category: 'mill', titleId: 'Fasilitas Pabrik', titleEn: 'Mill Facility', descId: 'Fasilitas pabrik kelapa sawit PT BETAMI.', descEn: 'PT BETAMI palm oil mill facility.' },
   { id: 22, src: '/images/hero-palm.jpg', category: 'plantation', titleId: 'Lanskap Kebun Sawit', titleEn: 'Palm Landscape', descId: 'Lanskap perkebunan kelapa sawit.', descEn: 'Oil palm plantation landscape.' },
-  { id: 23, src: '/images/internship.jpg', category: 'csr', titleId: 'Program Magang & CSR', titleEn: 'Internship & CSR Program', descId: 'Kegiatan magang dan sosial perusahaan.', descEn: 'Internship and social program activities.' },
+  { id: 23, src: '/images/internship.jpg', category: 'csr', titleId: 'Kegiatan CSR & Kemitraan', titleEn: 'CSR & Community Activities', descId: 'Kegiatan sosial perusahaan bersama masyarakat desa sekitar.', descEn: 'Company social activities with nearby village communities.' },
   { id: 24, src: '/images/about-palm.jpg', category: 'plantation', titleId: 'Sawit untuk Kehidupan', titleEn: 'Palm for Life', descId: 'Sawit sebagai sumber kehidupan masyarakat.', descEn: 'Palm as community livelihood.' },
 ];
 

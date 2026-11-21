@@ -1,11 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { LanguageProvider } from "@/lib/LanguageContext";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
-import TopBar from "@/components/TopBar";
-import SecurityNotice from "@/components/SecurityNotice";
 import SiteMotion from "@/components/SiteMotion";
+import SiteChrome from "@/components/SiteChrome";
 
 export const metadata: Metadata = {
   title: "PT Benih Tamiang (BETAMI) | Pabrik Kelapa Sawit Aceh Tamiang",
@@ -45,14 +42,7 @@ export default function RootLayout({
       <body className="antialiased min-h-screen flex flex-col bg-slate-50 text-slate-900">
         <LanguageProvider>
           <SiteMotion />
-          {/* Header lengket: TopBar + Navbar menempel di atas saat halaman digulir */}
-          <header className="site-header fixed top-0 left-0 right-0 z-[60]">
-            <TopBar />
-            <Navbar />
-          </header>
-          <div className="flex-1">{children}</div>
-          <SecurityNotice />
-          <Footer />
+          <SiteChrome>{children}</SiteChrome>
         </LanguageProvider>
       </body>
     </html>

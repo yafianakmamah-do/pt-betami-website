@@ -32,12 +32,12 @@ export default function StatsSection() {
                 {'count' in s ? <CountUp value={s.count ?? 0} suffix={s.suffix ?? ''} /> : s.value}
               </div>
               <div className="text-sm font-bold text-white mt-1">{s.label}</div>
-              <p className="text-xs text-teal-50/90 mt-2 leading-relaxed">{s.desc}</p>
+              <p className="text-xs text-teal-50 mt-2 leading-relaxed">{s.desc}</p>
             </ScrollReveal>
           ))}
         </div>
 
-        <p className="text-[11px] text-teal-100/70 text-center mt-8 max-w-2xl mx-auto">
+        <p className="text-[11px] text-teal-100 text-center mt-8 max-w-2xl mx-auto">
           {lang === 'id' ? 'Catatan: Detail kapasitas/angka teknis spesifik dapat diperbarui sesuai data resmi perusahaan. Informasi lokasi & kegiatan merujuk pada data operasional dan pemberitaan publik.' : 'Note: Specific technical figures can be updated per official company data. Location & activity info references operational and public sources.'}
         </p>
       </div>

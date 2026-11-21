@@ -4,7 +4,6 @@ import ProfileHighlight from '@/components/ProfileHighlight';
 import BusinessSection from '@/components/BusinessSection';
 import StatsSection from '@/components/StatsSection';
 import GallerySection from '@/components/GallerySection';
-import InternshipSection from '@/components/InternshipSection';
 import CTASection from '@/components/CTASection';
 import VideoSection from '@/components/VideoSection';
 import SustainabilitySection from '@/components/SustainabilitySection';
@@ -35,10 +34,7 @@ export default function HomePage() {
       {/* 6. Galeri */}
       <GallerySection isFullPage={false} />
 
-      {/* 7. Magang PT BETAMI */}
-      <InternshipSection />
-
-      {/* 8. CTA Ajakan Kolaborasi */}
+      {/* 7. CTA Ajakan Kolaborasi */}
       <CTASection />
     </main>
   );

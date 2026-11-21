@@ -1,92 +1,174 @@
-# Panduan Admin Website BETAMI
+# Panduan Admin & Supabase — PT BETAMI
 
-Panduan ini untuk menyiapkan penyimpanan foto, pesan Kontak, dan formulir Magang. Portal admin berada di `/admin`.
+Portal admin berada di `/admin`. Halaman lamaran kerja publik berada di `/karir`.
+Panduan ini menjelaskan apa yang sudah terpasang di kode dan apa yang **masih perlu Anda lakukan di Supabase** (karena kredensial proyek tidak boleh ditaruh di repository).
 
-## Yang perlu disiapkan
+---
 
-- Akun Supabase untuk database, login admin, dan penyimpanan foto.
-- Akun Vercel untuk hosting website Next.js.
-- Untuk memublikasikan lewat integrasi Git Vercel, folder proyek perlu disimpan di repository GitHub terlebih dahulu. Folder proyek saat ini belum menjadi repository Git.
+## 1. Status konfigurasi saat ini
 
-Tidak perlu membuat kata sandi admin di dalam kode. Jangan pernah mengirim kata sandi atau kunci rahasia lewat chat.
+Kode sudah mendeteksi dan menolak kredensial contoh/placeholder serta Secret Key.
 
-## 1. Buat database Supabase
+File `.env.local` saat ini sudah terisi dengan Project URL dan anon key milik proyek Supabase BETAMI:
 
-1. Masuk ke [supabase.com](https://supabase.com) dan buat proyek baru.
-2. Simpan kata sandi database di tempat pribadi. Kata sandi database berbeda dengan kata sandi admin website.
-3. Buka **SQL Editor → New query**.
-4. Buka file `supabase/schema.sql` di proyek ini, salin seluruh isinya ke SQL Editor, lalu tekan **Run**.
-5. Skrip membuat tiga tabel, aturan privasi (RLS), bucket foto publik untuk baca dan admin-only untuk perubahan, serta mendaftarkan foto bawaan Galeri agar bisa dikelola dari portal. Pengunjung hanya bisa mengirim formulir dan melihat foto terbit; mereka tidak bisa membaca pesan atau pengajuan orang lain.
+```env
+NEXT_PUBLIC_SUPABASE_URL=https://xipuoszxxxuxdxftgtga.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJ... (anon key proyek BETAMI)
+```
 
-Jika Supabase sudah pernah disiapkan sebelum fitur pengelolaan foto bawaan ditambahkan, jalankan kembali seluruh `supabase/schema.sql` agar foto bawaan masuk ke daftar admin. Skrip aman dijalankan ulang dan tidak menggandakan entri foto bawaan.
+Project ref `xipuoszxxxuxdxftgtga` itu **bukan placeholder**—sudah diverifikasi dari dashboard Supabase Anda.
 
-## 2. Buat akun admin
+**Bila ingin memakai Publishable key yang lebih baru:**
+1. Buka Supabase → **Project Settings → API Keys → Publishable key**.
+2. Salin nilai `sb_publishable_...` (bukan `sb_secret_...` dan bukan `service_role`).
+3. Ganti baris `NEXT_PUBLIC_SUPABASE_ANON_KEY` di `.env.local`.
+4. Simpan, lalu **restart** `npm run dev` (atau redeploy).
 
-1. Di Supabase, buka **Authentication → Users → Add user**.
-2. Masukkan email admin dan buat kata sandi yang kuat. Jika ada pilihan **Auto Confirm User**, aktifkan untuk akun admin. Simpan kata sandi di password manager.
-3. Salin email yang sama, lalu buka **SQL Editor** dan jalankan perintah berikut dengan mengganti alamat email:
+> Validasi otomatis di `lib/supabase/config.ts` akan menolak: nilai placeholder, URL dan key yang tertukar, key dari proyek lain (project ref tidak cocok), serta Secret Key/service_role.
 
-   ```sql
-   update auth.users
-   set raw_app_meta_data = coalesce(raw_app_meta_data, '{}'::jsonb) || '{"role":"admin"}'::jsonb
-   where email = 'email-admin-anda@example.com';
-   ```
+---
 
-4. Masuk lewat `/admin`. Jika baru mengubah role akun, keluar lalu masuk kembali agar sesi memuat role terbaru.
+## 2. Siapkan database (SQL Editor Supabase)
 
-## 3. Sambungkan website saat dijalankan di komputer
+Jalankan **berurutan** di Supabase → SQL Editor → New query. Skrip aman dijalankan ulang dan tidak menghapus data.
 
-1. Di Supabase, buka **Project Settings → API Keys**.
-2. Salin **Project URL** dan **Publishable key** (atau legacy `anon`/`public` key). Jangan gunakan **Secret key** atau `service_role` key.
-3. Buat file `.env.local` di folder utama proyek (sefolder dengan `package.json`) dengan isi:
+1. `supabase/schema.sql` — tabel galeri, kontak, magang, peserta magang, foto bawaan, RLS awal, bucket `betami-gallery`.
+2. `supabase/migration_admin_features.sql` — tabel `job_applications`, `job_openings`, `site_content`, bucket privat `betami-documents`.
+3. `supabase/migration_security_fix.sql` — pengamanan final: fungsi `is_admin()`, pencabutan izin tulis publik, RLS admin untuk semua tabel, serta kebijakan Storage yang benar.
 
-   ```env
-   NEXT_PUBLIC_SUPABASE_URL=https://ID-PROYEK-ANDA.supabase.co
-   NEXT_PUBLIC_SUPABASE_ANON_KEY=PUBLISHABLE_KEY_ANDA
-   ```
+Catatan: file `supabase/migration_job_applications.sql` adalah versi lama/duplikat dari bagian `job_applications`. Tidak perlu dijalankan jika sudah menjalankan `migration_admin_features.sql`.
 
-4. Simpan file tersebut, lalu jalankan `npm run dev` di terminal pada folder proyek. Buka `http://localhost:3000/admin`.
-5. `.env.local` dikecualikan Git. Jangan menghapus atau membagikan pengecualian ini.
+---
 
-## 4. Cara mengelola portal admin
+## 3. Buat akun admin
 
-### Menambah, mengganti, dan mengubah teks foto
+1. Supabase → **Authentication → Users → Add user**. Isi email admin, kata sandi kuat, dan aktifkan **Auto Confirm User**.
+2. Beri hak admin lewat SQL Editor (ganti email):
 
-1. Masuk ke `/admin`, pilih tab **Foto website**.
-2. Pilih JPG, PNG, atau WebP maksimal 8 MB.
-3. Pilih kategori, isi judul dan keterangan Indonesia; teks Inggris boleh dilengkapi.
-4. Tekan **Unggah & tampilkan**. Foto dan teks masuk ke Supabase dan tampil di Galeri website.
-5. Untuk memperbarui foto yang sudah ada—termasuk foto bawaan—pilih **Ubah foto & teks**. Pilih foto pengganti bila perlu, perbarui judul/keterangan, lalu simpan. Foto bawaan dapat diubah, tetapi tidak dapat dihapus dari portal.
-6. Gunakan pencarian dan filter kategori untuk menemukan foto. Foto tambahan dapat disembunyikan atau dihapus.
+```sql
+update auth.users
+set raw_app_meta_data = coalesce(raw_app_meta_data, '{}'::jsonb) || '{"role":"admin"}'::jsonb
+where email = 'email-admin-anda@example.com';
+```
 
-### Membaca pesan Kontak
+3. Buka `/admin`, login, lalu **logout dan login ulang** setelah perubahan role agar sesi memuat role terbaru.
+4. Akun yang login tetapi tidak memiliki role admin akan ditolak oleh middleware dan API `/api/admin/*`.
 
-1. Pilih tab **Pesan Kontak**.
-2. Baca pesan, lalu ubah status menjadi Baru, Dibaca, atau Selesai.
-3. Tautan email dan telepon dapat dipilih untuk membalas melalui aplikasi email/telepon Anda.
+### Lupa sandi admin / email reset tidak masuk
+Jalankan `supabase/reset_admin_password.sql` di SQL Editor. Ganti `SANDI_BARU_ANDA` dengan sandi baru, lalu **Run**. Skrip ini sekaligus:
 
-### Meninjau pengajuan Magang
+- mengganti sandi langsung (tanpa email),
+- memastikan email sudah confirmed,
+- memberi role admin,
+- menampilkan hasil pengecekan.
 
-1. Pilih tab **Pengajuan Magang**.
-2. Data peserta, sekolah, jurusan, bidang, durasi, kontak, dan catatan tampil di sini.
-3. Ubah status menjadi Baru, Ditinjau, Diterima, atau Ditolak setelah ditindaklanjuti.
-4. Data kontak dan pengajuan bersifat pribadi. Batasi akses portal admin hanya kepada staf berwenang.
+Setelah itu tunggu sekitar 1 menit karena Supabase membatasi percobaan login yang terlalu sering, lalu login ulang di `/admin`.
 
-## 5. Hosting ke internet dengan Vercel
+---
 
-1. Simpan proyek ini ke repository GitHub pribadi/perusahaan. Jangan commit `.env.local`.
-2. Di [vercel.com](https://vercel.com), pilih **Add New → Project**, lalu impor repository tersebut.
-3. Tambahkan environment variables berikut di **Project Settings → Environment Variables** untuk Production (dan Preview jika diperlukan):
+## 4. Fitur yang sudah terpasang
+
+### Dashboard (`/admin`)
+- Ringkasan pesan kontak, lamaran magang, lamaran kerja, peserta magang, dan galeri.
+- sidebar responsif (bisa diciutkan, menu mobile berfungsi), top bar, refresh per tab.
+
+### Lamaran Kerja & CV
+- Tabel `/karir` dengan pencarian dan filter status; ubah status Baru → Ditinjau → Diterima/Ditolak; hapus lamaran.
+- CV disimpan di bucket privat `betami-documents`. Tombol **Lihat CV** memakai *signed URL* yang dibuat di server (berlaku 1 jam). Tidak ada Secret Key di browser.
+- Formulir publik `/karir` mengirim data + CV ke `/api/karir`; data masuk otomatis ke dashboard.
+
+### Lowongan Pekerjaan
+- Tab **Lowongan Pekerjaan**: tambah, ubah, sembunyikan/tampilkan, hapus lowongan.
+- Lowongan yang ditayangkan tampil di halaman `/karir` dan bisa dipilih saat melamar.
+- Di bagian atas tab ada tombol **Status Penerimaan Karyawan**:
+  - **Tutup Penerimaan** → tombol dan formulir lamaran di `/karir` langsung hilang; halaman tetap menampilkan teks ajakan dan pesan pengumuman.
+  - **Buka Penerimaan** → formulir dan tombol lamaran tampil kembali.
+
+### Pengaturan Karir
+- Menu admin **Pengaturan Karir** mengatur status penerimaan, judul/deskripsi halaman, judul/deskripsi ajakan, label tombol, dan pesan saat nonaktif.
+- Status **AKTIF** menampilkan tombol **LAMAR SEKARANG** yang mengarah ke formulir lamaran BETAMI.
+- Status **NONAKTIF** menyembunyikan tombol dan formulir, lalu menampilkan pesan penutup profesional.
+- Klik **SIMPAN PERUBAHAN** untuk menyimpan teks. Tombol AKTIF/NONAKTIF menyimpan status langsung.
+- Semua pengaturan tersimpan di tabel `site_content` yang sudah ada, sehingga tetap ada setelah refresh.
+- Lamaran dari formulir BETAMI masuk ke tabel `job_applications` dan tampil di menu **Lamaran Kerja & CV**. CV disimpan di bucket privat `betami-documents`.
+
+### Tentang Astra
+- Alur Astra sudah dinonaktifkan dari halaman Karir sesuai permintaan.
+- Semua pelamar kini memakai formulir BETAMI, sehingga datanya pasti masuk ke dashboard admin.
+
+### Karir & Teks Lamaran
+- Halaman `/karir` memakai layout rekrutmen korporat: hero besar, nilai kerja, proses rekrutmen, lowongan, dan ajakan melamar.
+- Teks utama bisa diubah di **Pengaturan Karir**. Teks lama tetap tersedia di **Konten Website → tab Karir** untuk kompatibilitas.
+
+### Magang & Galeri
+- **Pendaftaran Magang**: lihat lamaran magang dan ubah statusnya.
+- **Peserta Magang / Anak Magang**: tambah, ubah, hapus, dan sembunyikan/tampilkan anak magang. Isi **nama**, **universitas**, **jurusan**, **periode**, **lokasi/bagian**, **foto**, dan **pengalaman/cerita**. Foto diunggah ke bucket `betami-gallery`.
+  - Jika kotak **Tampilkan di halaman Magang** dicentang, foto + nama + pengalaman langsung muncul di bagian "Anak Magang di PT BETAMI" pada halaman `/magang` dan juga di homepage.
+  - Jumlah 1-3 orang ditampilkan sejajar tanpa tombol geser. Tombol panah kiri/kanan dan indikator slide muncul otomatis mulai 4 orang.
+  - Klik kartu anak magang di website untuk membaca pengalaman selengkapnya.
+- Di bagian atas tab **Peserta Magang** ada tombol **Status Penerimaan Anak Magang**:
+  - **Tutup Penerimaan** (misalnya kuota sudah penuh) → tautan WhatsApp dan tombol "Kirim Lamaran Magang" di `/magang` langsung hilang. Galeri anak magang tetap tampil.
+  - **Buka Penerimaan** → tautan dan tombol lamaran tampil kembali.
+- Halaman `/magang` juga memakai **teks ajakan** dan **Syarat Lamaran Magang** yang bisa diubah di **Konten Website → tab Magang**, termasuk nomor/tautan WhatsApp dan pesan saat kuota penuh.
+- **Galeri Foto**: unggah, ubah judul/keterangan, ganti foto, sembunyikan/tampilkan, hapus. Foto bawaan tetap bisa diubah tetapi tidak dihapus dari daftar.
+
+### Pesan Kontak & Konten
+- **Pesan Kontak**: baca dan ubah status Baru/Dibaca/Selesai.
+- **Konten Website**: simpan teks situs ke tabel `site_content` yang sudah ada (tidak perlu SQL migrasi baru).
+  - Tab **Karir** dan **Magang** berisi editor teks ajakan, syarat lamaran, label tombol, dan tombol buka/tutup penerimaan.
+  - Klik **Simpan Semua** setelah mengubah teks/foto. Nilai lama otomatis dimuat saat tab dibuka.
+
+### Pengaturan
+- Profil admin bersifat read-only dari sesi Supabase.
+- **Keamanan**: ubah kata sandi sungguhan lewat `supabase.auth.updateUser()`. Tidak ada tombol "simpan" palsu.
+
+---
+
+## 5. Keamanan yang diterapkan
+
+- `middleware.ts` memeriksa sesi dan role admin untuk `/admin` dan seluruh `/api/admin/*`.
+- Setiap route admin juga memanggil `requireAdmin()` (pertahanan berlapis).
+- RLS aktif pada semua tabel; public hanya bisa: melihat data yang dipublikasikan dan mengirim formulir.
+- Bucket `betami-gallery` publik untuk dibaca, tapi hanya admin yang bisa mengubah.
+- Bucket `betami-documents` privat; anon hanya boleh mengunggah ke folder `applications/` dengan ekstensi PDF/DOC/DOCX.
+- Tidak ada Secret Key / Service Role Key di frontend maupun di file proyek.
+
+---
+
+## 6. Hosting (Vercel)
+
+1. Simpan proyek ke repository GitHub pribadi. **Jangan commit `.env.local`.**
+2. Di Vercel → Project Settings → Environment Variables, tambahkan:
    - `NEXT_PUBLIC_SUPABASE_URL`
    - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
-4. Deploy. Setiap kali environment variable diubah, lakukan redeploy.
-5. Di Supabase **Authentication → URL Configuration**, set **Site URL** ke domain produksi dan tambahkan domain preview/local yang digunakan ke **Redirect URLs**.
-6. Uji website, `/admin`, unggah foto, formulir Kontak, dan formulir Magang pada domain produksi sebelum membagikan alamat publik.
+3. Deploy ulang setiap kali environment variable berubah.
+4. Supabase → Authentication → URL Configuration: set **Site URL** ke domain produksi dan daftarkan URL preview/local di **Redirect URLs**.
 
-## Catatan penting
+---
 
-- Hingga proyek Supabase dibuat dan dua environment variable dipasang, formulir sengaja menampilkan bahwa penyimpanan belum tersambung; sistem tidak berpura-pura berhasil.
-- Foto yang ditambahkan admin disimpan di bucket `betami-gallery`; teks/caption dan statusnya tersimpan di database Supabase.
-- Pesan Kontak dan Magang masuk ke inbox `/admin`, **bukan otomatis dikirim ke email**. Email otomatis memerlukan layanan email dan konfigurasi tambahan.
-- Formulir tidak meminta unggahan CV atau dokumen. Fitur tersebut belum dibuat.
-- Foto galeri bawaan yang sudah ada tetap tampil; foto admin ditambahkan ke galeri. Foto dari perangkat lokal lama tidak otomatis tersalin ke Supabase.
+## 7. Pengujian
+
+Yang sudah diverifikasi dengan kredensial Supabase asli:
+- `npx tsc --noEmit` lolos dan `npm run build` sukses.
+- Login admin berhasil dan dashboard tampil.
+- `/karir` menampilkan tombol **LAMAR SEKARANG** yang menuju ke formulir BETAMI.
+- Tombol dan formulir hilang saat status NONAKTIF, lalu tampil lagi saat status AKTIF.
+- Perubahan teks/URL di **Pengaturan Karir** tersimpan dan langsung tampil di halaman publik setelah refresh.
+- `/api/admin/content` menolak akses publik dengan 401.
+- Tidak ada tautan Astra lagi di halaman Karir.
+
+Yang **belum bisa diuji** sampai kredensial asli dipasang:
+- Login/logout dengan akun admin sungguhan.
+- Tulis/baca data ke tabel Supabase.
+- Upload CV dan pembuatan signed URL.
+
+Setelah kredensial asli terpasang, uji secara berurutan:
+1. `/admin` → login admin → logout → login lagi.
+2. Tab **Konten Website → Karir** → ubah teks ajakan dan syarat lamaran → simpan → cek `/karir`.
+3. Tab **Lowongan Pekerjaan** → tambah lowongan → cek di `/karir`. Tekan **Tutup Penerimaan** → cek `/karir`: formulir dan tombol lamaran harus hilang. Tekan **Buka Penerimaan** lagi.
+4. `/karir` → kirim lamaran dengan CV → cek tab **Lamaran Kerja & CV** → buka **Lihat CV**.
+5. Form kontak `/kontak` → cek tab **Pesan Kontak**. Tab **Peserta Magang** → tambah 2 anak magang lengkap dengan foto dan cerita, lalu cek `/magang`: foto, nama, dan pengalaman harus tampil tanpa tombol geser.
+6. Tab **Konten Website → Magang** → ubah syarat magang dan tautan WhatsApp → simpan → cek `/magang`.
+7. Di tab **Peserta Magang**, tekan **Tutup Penerimaan** → cek `/magang`: tautan WhatsApp dan tombol lamaran harus hilang, galeri tetap ada. Tekan **Buka Penerimaan** lagi.
+8. Tab **Galeri Foto** → unggah foto → cek `/galeri`.
+9. Coba akun non-admin mengakses `/admin` dan `/api/admin/overview` → harus ditolak.

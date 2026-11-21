@@ -18,7 +18,7 @@ export default function Footer() {
               <span className="inline-flex items-center gap-3">
                 <span className="flex flex-col leading-none">
                   <span className="text-base font-extrabold tracking-tight text-white">BETAMI</span>
-                  <span className="mt-1 text-[8px] font-bold tracking-[0.16em] text-teal-200">
+                  <span className="mt-1 text-[11px] font-bold tracking-[0.1em] text-teal-200 sm:text-[12px]">
                     {lang === 'id' ? 'AGRIBISNIS KELAPA SAWIT' : 'PALM OIL AGRIBUSINESS'}
                   </span>
                 </span>
@@ -46,10 +46,10 @@ export default function Footer() {
           <div className="lg:col-span-3 space-y-2.5">
             <h4 className="text-xs font-bold text-white uppercase tracking-wider">{t.footer.businessUnits}</h4>
             <ul className="space-y-1.5 text-gray-400">
-              <li><Link href="/bisnis#perkebunan" className="hover:text-amber-400 transition">• {lang === 'id' ? 'Pasokan & Penerimaan TBS' : 'FFB Supply & Receiving'}</Link></li>
-              <li><Link href="/bisnis#pengolahan" className="hover:text-amber-400 transition">• {lang === 'id' ? 'Pabrik Kelapa Sawit (PKS)' : 'Palm Oil Mill (PKS)'}</Link></li>
-              <li><Link href="/bisnis#produk" className="hover:text-amber-400 transition">• {lang === 'id' ? 'Crude Palm Oil (CPO)' : 'Crude Palm Oil (CPO)'}</Link></li>
-              <li><Link href="/bisnis#produk" className="hover:text-amber-400 transition">• {lang === 'id' ? 'Inti Sawit & Turunan' : 'Palm Kernel & Derivatives'}</Link></li>
+              <li><Link href="/info/pasokan-tbs" className="hover:text-amber-400 transition">• {lang === 'id' ? 'Pasokan & Penerimaan TBS' : 'FFB Supply & Receiving'}</Link></li>
+              <li><Link href="/info/pabrik-kelapa-sawit" className="hover:text-amber-400 transition">• {lang === 'id' ? 'Pabrik Kelapa Sawit (PKS)' : 'Palm Oil Mill (PKS)'}</Link></li>
+              <li><Link href="/info/cpo-inti-sawit" className="hover:text-amber-400 transition">• {lang === 'id' ? 'Crude Palm Oil (CPO)' : 'Crude Palm Oil (CPO)'}</Link></li>
+              <li><Link href="/info/cpo-inti-sawit" className="hover:text-amber-400 transition">• {lang === 'id' ? 'Inti Sawit & Turunan' : 'Palm Kernel & Derivatives'}</Link></li>
               <li><Link href="/magang" className="hover:text-amber-400 transition">• {lang === 'id' ? 'Informasi Magang' : 'Internship Information'}</Link></li>
             </ul>
           </div>
@@ -60,7 +60,7 @@ export default function Footer() {
               <div className="flex items-start gap-2"><MapPin className="w-3.5 h-3.5 text-teal-300 shrink-0 mt-0.5" /><span>{t.footer.addressOffice}</span></div>
               <div className="flex items-start gap-2"><MapPin className="w-3.5 h-3.5 text-amber-400 shrink-0 mt-0.5" /><span>{t.footer.addressPlantation}</span></div>
               <div className="flex items-center gap-2 pt-1"><Phone className="w-3.5 h-3.5 text-teal-300 shrink-0" /><span>{t.footer.phone}</span></div>
-              <div className="flex items-center gap-2"><Mail className="w-3.5 h-3.5 text-teal-300 shrink-0" /><span>{t.footer.email}</span></div>
+              <div className="flex items-center gap-2"><Mail className="w-3.5 h-3.5 text-teal-300 shrink-0" /><a href={`mailto:${t.footer.email}`} className="hover:text-white hover:underline">{t.footer.email}</a></div>
             </div>
           </div>
         </div>
