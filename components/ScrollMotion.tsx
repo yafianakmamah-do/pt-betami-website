@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useRef, type ReactNode } from 'react';
 import { animate, motion, useInView, useMotionValue, useReducedMotion, useScroll, useTransform } from 'framer-motion';

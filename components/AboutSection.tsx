@@ -8,6 +8,7 @@ import { ArrowRight } from 'lucide-react';
 import { IconMill, IconCPO, IconCSR, IconQuality } from '@/components/BetamiIcons';
 import { useLanguage } from '@/lib/LanguageContext';
 import { CountUp, ScrollParallax, ScrollReveal } from '@/components/ScrollMotion';
+import { MaskHeading } from '@/components/MaskMotion';
 
 export default function AboutSection() {
   const { lang } = useLanguage();
@@ -20,9 +21,7 @@ export default function AboutSection() {
             <span className="inline-flex items-center px-3 py-1 rounded-full bg-teal-50 text-teal-700 border border-teal-200 text-xs font-bold uppercase tracking-wider">
               {lang === 'id' ? 'Profil Perusahaan' : 'Company Profile'}
             </span>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-slate-900">
-              PT Benih Tamiang <span className="text-teal-700">(BETAMI)</span>
-            </h2>
+            <MaskHeading text="PT Benih Tamiang (BETAMI)" className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-slate-900" baseDelay={0.1} />
             <p className="text-slate-700 leading-relaxed text-sm sm:text-base">
               {lang === 'id'
                 ? 'PT BETAMI adalah perusahaan yang bergerak di bidang perkebunan dan pengolahan kelapa sawit di Kabupaten Aceh Tamiang, Nanggroe Aceh Darussalam. Beroperasi di Kecamatan Rantau, perusahaan mengelola Pabrik Kelapa Sawit (PKS) untuk mengolah Tandan Buah Segar (TBS) menjadi Crude Palm Oil (CPO).'
