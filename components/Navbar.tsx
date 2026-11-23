@@ -17,6 +17,7 @@ export default function Navbar() {
   const [aboutDropdownOpen, setAboutDropdownOpen] = useState(false);
   const [businessDropdownOpen, setBusinessDropdownOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const aboutRef = useRef<HTMLDivElement | null>(null);
   const aboutPanelRef = useRef<HTMLDivElement | null>(null);
   const businessRef = useRef<HTMLDivElement | null>(null);
@@ -42,6 +43,13 @@ export default function Navbar() {
   useEffect(() => {
     setMobileMenuOpen(false); setAboutDropdownOpen(false); setBusinessDropdownOpen(false); setLangDropdownOpen(false);
   }, [pathname]);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 32);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   useEffect(() => {
     if (!mobileMenuOpen) return;
@@ -214,7 +222,7 @@ export default function Navbar() {
 
 
   return (
-    <div className="site-nav relative w-full z-50 bg-white/95 backdrop-blur-md shadow-sm border-b border-teal-100 font-sans">
+    <div className="site-nav relative w-full z-50 bg-white/95 backdrop-blur-md shadow-sm border-b border-teal-100 font-sans" data-scrolled={scrolled ? "true" : "false"}>
       <div className="bg-teal-800 text-white text-xs border-b border-teal-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-10 flex items-center justify-between">
           <div className="hidden md:flex items-center gap-4 text-teal-50 text-[11px] font-medium tracking-wide">

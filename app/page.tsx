@@ -6,6 +6,7 @@ import StatsSection from '@/components/StatsSection';
 import GallerySection from '@/components/GallerySection';
 import CTASection from '@/components/CTASection';
 import VideoSection from '@/components/VideoSection';
+import ProsesSawitSection from '@/components/ProsesSawitSection';
 import SustainabilitySection from '@/components/SustainabilitySection';
 
 export default function HomePage() {
@@ -26,8 +27,11 @@ export default function HomePage() {
       {/* 4. Statistik Perusahaan */}
       <StatsSection />
 
-      {/* 5. Video Sawit */}
+      {/* 5. Video Sawit (YouTube) */}
       <VideoSection />
+
+      {/* 5b. Proses Pengolahan Kelapa Sawit - video lokal */}
+      <ProsesSawitSection />
 
       <SustainabilitySection />
 

@@ -3614,3 +3614,227 @@ select:focus-visible {
 .admin-portal .bg-white {
   background: #ffffff !important;
 }
+/* ================================================================
+   BETAMI PREMIUM ANIMATIONS & MICRO-INTERACTIONS
+   Tambahan: navbar scroll effect, button hover, card hover,
+   image zoom, stagger children, page transition
+   ================================================================ */
+
+/* --- Navbar: transparan saat atas, solid saat scroll --- */
+.site-nav {
+  transition: background 300ms ease, box-shadow 300ms ease, border-color 300ms ease;
+}
+.site-nav[data-scrolled="true"] {
+  background: rgba(250, 249, 245, 0.98) !important;
+  box-shadow: 0 4px 32px rgba(0,0,0,0.13) !important;
+  border-color: rgba(16,88,74,0.14) !important;
+}
+
+/* --- Editorial button: scale + glow on hover --- */
+.editorial-button {
+  position: relative;
+  overflow: hidden;
+  transform: translateZ(0);
+  transition: color 200ms ease, background 200ms ease, border-color 200ms ease,
+              transform 180ms cubic-bezier(0.22,1,0.36,1),
+              box-shadow 200ms ease;
+}
+.editorial-button:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 6px 24px rgba(211,168,50,0.35);
+}
+.editorial-button:active {
+  transform: translateY(0) scale(0.98);
+}
+
+/* Ripple effect on editorial-button */
+.editorial-button::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,0.18);
+  opacity: 0;
+  transition: opacity 200ms ease;
+}
+.editorial-button:hover::after {
+  opacity: 1;
+}
+
+/* --- Card hover: lift + shadow --- */
+.betami-card,
+.business-chapter,
+[class*="rounded-xl"][class*="border"],
+[class*="rounded-2xl"][class*="border"] {
+  transition: transform 280ms cubic-bezier(0.22,1,0.36,1),
+              box-shadow 280ms ease;
+}
+.betami-card:hover,
+.business-chapter:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 48px rgba(0,0,0,0.12);
+}
+
+/* --- Image hover: zoom halus --- */
+.gallery-hover-zoom,
+[data-site-parallax="true"] {
+  transition: transform 500ms cubic-bezier(0.22,1,0.36,1);
+  overflow: hidden;
+}
+.gallery-hover-zoom:hover img,
+figure:hover [data-site-parallax="true"] {
+  transform: scale(1.04);
+}
+
+/* --- Link nav: underline grow from left --- */
+.site-nav nav a {
+  position: relative;
+}
+.site-nav nav a::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--betami-green);
+  transition: width 240ms cubic-bezier(0.22,1,0.36,1);
+}
+.site-nav nav a:hover::after,
+.site-nav nav a[aria-current="page"]::after {
+  width: 100%;
+}
+
+/* --- Stagger children utility --- */
+.stagger-children > * {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 600ms cubic-bezier(0.22,1,0.36,1),
+              transform 600ms cubic-bezier(0.22,1,0.36,1);
+}
+.stagger-children.in-view > *:nth-child(1) { transition-delay: 0ms; }
+.stagger-children.in-view > *:nth-child(2) { transition-delay: 80ms; }
+.stagger-children.in-view > *:nth-child(3) { transition-delay: 160ms; }
+.stagger-children.in-view > *:nth-child(4) { transition-delay: 240ms; }
+.stagger-children.in-view > *:nth-child(5) { transition-delay: 320ms; }
+.stagger-children.in-view > *:nth-child(6) { transition-delay: 400ms; }
+.stagger-children.in-view > * {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* --- Smooth page transition wrapper --- */
+main.cinematic-home,
+main.cinematic-page {
+  animation: page-enter 500ms cubic-bezier(0.22,1,0.36,1) both;
+}
+@keyframes page-enter {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  main.cinematic-home,
+  main.cinematic-page {
+    animation: none;
+  }
+  .editorial-button,
+  .betami-card,
+  .business-chapter,
+  .editorial-button::after {
+    transition: none !important;
+  }
+}
+
+/* --- Section divider: garis emas tipis --- */
+.betami-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, var(--betami-gold) 30%, var(--betami-green) 70%, transparent 100%);
+  opacity: 0.35;
+  margin: 0;
+}
+
+/* --- Footer link hover glow --- */
+.site-footer a {
+  transition: color 180ms ease, text-shadow 180ms ease;
+}
+.site-footer a:hover {
+  text-shadow: 0 0 12px rgba(211,168,50,0.4);
+}
+
+/* --- Stat number entrance --- */
+@keyframes count-pop {
+  0%   { transform: scale(0.8); opacity: 0; }
+  60%  { transform: scale(1.06); }
+  100% { transform: scale(1); opacity: 1; }
+}
+.stat-pop {
+  animation: count-pop 600ms cubic-bezier(0.22,1,0.36,1) both;
+}
+
+/* --- Scrollbar brand colors (already set, reinforce) --- */
+::-webkit-scrollbar-thumb { background: var(--betami-green); }
+::-webkit-scrollbar-thumb:hover { background: #0d4435; }
+
+/* ================================================================
+   BETAMI FIX: Karir hero text, ukuran h2, waktu lokal
+   ================================================================ */
+
+/* --- Halaman karir: hero title tidak sebesar editorial default --- */
+.cinematic-page--career .editorial-hero__content h1,
+.magang-hero-title.career-hero-title {
+  font-size: clamp(28px, 5vw, 60px) !important;
+  line-height: 1.1 !important;
+  letter-spacing: -0.04em !important;
+  font-weight: 800 !important;
+  text-shadow: 0 2px 16px rgba(0,0,0,0.55), 0 1px 4px rgba(0,0,0,0.4) !important;
+}
+
+/* --- Hero desc karir: kontras lebih jelas --- */
+.cinematic-page--career .editorial-hero__content p,
+.magang-hero-desc {
+  color: rgba(255,255,255,0.93) !important;
+  text-shadow: 0 1px 8px rgba(0,0,0,0.5) !important;
+  font-size: clamp(13px, 1.4vw, 16px) !important;
+}
+
+/* --- h2 dalam halaman karir: kecilin dari clamp(32,4vw,56) --- */
+.cinematic-page--career h2,
+.cinematic-page--career .text-base.sm\:text-lg,
+.cinematic-page--career .text-base.font-semibold {
+  font-size: clamp(18px, 2.4vw, 32px) !important;
+  font-weight: 700 !important;
+  line-height: 1.2 !important;
+  letter-spacing: -0.03em !important;
+}
+
+/* --- Section "Terima Kasih / Belum Buka": teks juga dikecilin --- */
+.cinematic-page--career .whitespace-pre-line {
+  font-size: clamp(16px, 2.2vw, 28px) !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.02em !important;
+  line-height: 1.25 !important;
+}
+
+/* --- Perbaiki hero h1 agar teks tidak terlalu besar di semua halaman sub --- */
+.cinematic-page--internship .editorial-hero__content h1,
+.cinematic-page--contact .editorial-hero__content h1,
+.cinematic-page--gallery .editorial-hero__content h1,
+.cinematic-page--sustainability .editorial-hero__content h1 {
+  font-size: clamp(32px, 6vw, 80px) !important;
+  line-height: 0.95 !important;
+}
+
+/* --- Text shadow pada semua editorial hero heading agar tidak nyatu foto --- */
+.editorial-hero__content h1 {
+  text-shadow: 0 3px 20px rgba(0,0,0,0.5), 0 1px 6px rgba(0,0,0,0.35);
+}
+.editorial-hero__content p {
+  text-shadow: 0 1px 8px rgba(0,0,0,0.45);
+}
+
+/* --- TopBar waktu: ukuran lebih proporsional --- */
+.topbar-time-badge {
+  font-size: 11px;
+  letter-spacing: 0.01em;
+  padding: 2px 8px;
+  border-radius: 4px;
+}

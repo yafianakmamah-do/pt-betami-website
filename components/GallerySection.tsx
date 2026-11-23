@@ -207,20 +207,82 @@ export default function GallerySection({ isFullPage = false }: { isFullPage?: bo
             <button onClick={(event) => { event.stopPropagation(); nextImage(); }} className="absolute right-3 p-2 text-white/80 hover:text-white sm:right-6" aria-label={lang === 'id' ? 'Foto berikutnya' : 'Next photo'}><ChevronRight className="h-8 w-8" /></button>
             <motion.figure
               key={filteredItems[activeImageIndex].id}
-              className="relative flex max-h-[88vh] w-full max-w-5xl flex-col items-center"
+              className="relative flex max-h-[90vh] w-full max-w-6xl overflow-hidden rounded-2xl bg-[#0d1410] shadow-2xl"
               initial={{ opacity: 0, y: 24, scale: reduceMotion ? 1 : 0.965 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -12, scale: reduceMotion ? 1 : 0.98 }}
               transition={{ duration: reduceMotion ? 0 : 0.38, ease: [0.22, 1, 0.36, 1] }}
               onClick={(event) => event.stopPropagation()}
             >
-              <div className="relative h-[62vh] w-full overflow-hidden rounded-xl bg-black shadow-2xl sm:h-[70vh]">
-                <Image src={filteredItems[activeImageIndex].src} alt={lang === 'id' ? filteredItems[activeImageIndex].titleId : filteredItems[activeImageIndex].titleEn} fill quality={75} sizes="100vw" className="object-contain" priority />
+              {/* KIRI: Foto */}
+              <div className="relative w-full sm:w-[62%] flex-shrink-0 bg-black" style={{ minHeight: '340px', maxHeight: '88vh' }}>
+                <Image
+                  src={filteredItems[activeImageIndex].src}
+                  alt={lang === 'id' ? filteredItems[activeImageIndex].titleId : filteredItems[activeImageIndex].titleEn}
+                  fill
+                  quality={85}
+                  sizes="(max-width: 640px) 100vw, 60vw"
+                  className="object-contain"
+                  priority
+                />
+                {/* Nomor foto */}
+                <span className="absolute top-3 left-3 text-[11px] font-bold text-white/60 tracking-widest bg-black/40 px-2 py-0.5 rounded">
+                  {String(activeImageIndex + 1).padStart(2, '0')} / {String(filteredItems.length).padStart(2, '0')}
+                </span>
               </div>
-              <figcaption className="mt-3 text-center text-white">
-                <h3 className="text-base font-bold">{lang === 'id' ? filteredItems[activeImageIndex].titleId : filteredItems[activeImageIndex].titleEn}</h3>
-                <p className="mt-0.5 max-w-3xl text-xs text-slate-300">{lang === 'id' ? filteredItems[activeImageIndex].descId : filteredItems[activeImageIndex].descEn}</p>
+
+              {/* KANAN: Penjelasan */}
+              <figcaption className="hidden sm:flex flex-col justify-between p-7 w-[38%] border-l border-white/8 text-white">
+                <div className="space-y-5">
+                  {/* Kategori badge */}
+                  <span className="inline-block text-[10px] font-black uppercase tracking-widest px-2.5 py-1 rounded-full bg-teal-800/60 border border-teal-600/30 text-teal-300">
+                    {filteredItems[activeImageIndex].category}
+                  </span>
+                  {/* Judul */}
+                  <h3 className="text-xl font-extrabold leading-tight tracking-tight text-white">
+                    {lang === 'id' ? filteredItems[activeImageIndex].titleId : filteredItems[activeImageIndex].titleEn}
+                  </h3>
+                  {/* Deskripsi */}
+                  <p className="text-sm text-slate-300 leading-relaxed">
+                    {lang === 'id' ? filteredItems[activeImageIndex].descId : filteredItems[activeImageIndex].descEn}
+                  </p>
+                  {/* Garis emas dekoratif */}
+                  <div className="h-px w-16 mt-1" style={{ background: 'linear-gradient(90deg, #d3a832, transparent)' }} />
+                </div>
+
+                {/* Navigasi bawah */}
+                <div className="flex items-center gap-3 mt-6">
+                  <button
+                    type="button"
+                    onClick={(e) => { e.stopPropagation(); prevImage(); }}
+                    className="flex items-center justify-center w-9 h-9 rounded-full border border-white/20 text-white/70 hover:text-white hover:border-white/50 transition"
+                    aria-label={lang === 'id' ? 'Foto sebelumnya' : 'Previous photo'}
+                  >
+                    <ChevronLeft className="w-5 h-5" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={(e) => { e.stopPropagation(); nextImage(); }}
+                    className="flex items-center justify-center w-9 h-9 rounded-full border border-white/20 text-white/70 hover:text-white hover:border-white/50 transition"
+                    aria-label={lang === 'id' ? 'Foto berikutnya' : 'Next photo'}
+                  >
+                    <ChevronRight className="w-5 h-5" />
+                  </button>
+                  <span className="text-xs text-slate-500 ml-auto">
+                    {lang === 'id' ? 'Tekan ← → untuk navigasi' : 'Press ← → to navigate'}
+                  </span>
+                </div>
               </figcaption>
+
+              {/* Mobile: judul di bawah foto */}
+              <div className="sm:hidden absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/90 to-transparent text-white">
+                <h3 className="text-sm font-bold">
+                  {lang === 'id' ? filteredItems[activeImageIndex].titleId : filteredItems[activeImageIndex].titleEn}
+                </h3>
+                <p className="text-[11px] text-slate-300 mt-1">
+                  {lang === 'id' ? filteredItems[activeImageIndex].descId : filteredItems[activeImageIndex].descEn}
+                </p>
+              </div>
             </motion.figure>
           </motion.div>
         )}
