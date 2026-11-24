@@ -1,10 +1,10 @@
 ﻿'use client';
 
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { useLanguage } from '@/lib/LanguageContext';
 
-const VIDEO_SRC =
-  '/images/Dari%20Buah%20Sawit%20Jadi%20Minyak_%2010%20Tahap%20di%20Dalam%20Pabrik!%20%F0%9F%8C%B4.mp4';
+const VIDEO_SRC = '/videos/proses-sawit.mp4';
+const VIDEO_POSTER = '/videos/proses-sawit-poster.jpg';
 
 const teks = {
   id: {
@@ -47,10 +47,12 @@ export default function ProsesSawitSection() {
   const { lang } = useLanguage();
   const p = teks[lang as 'id' | 'en'] ?? teks.id;
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [videoFailed, setVideoFailed] = useState(false);
 
   useEffect(() => {
     const video = videoRef.current;
-    if (!video) return;
+    if (!video || videoFailed) return;
+    if (video.error) { setVideoFailed(true); return; }
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) { video.play().catch(() => {}); }
@@ -60,7 +62,7 @@ export default function ProsesSawitSection() {
     );
     observer.observe(video);
     return () => observer.disconnect();
-  }, []);
+  }, [videoFailed]);
 
   return (
     <section
@@ -132,19 +134,30 @@ export default function ProsesSawitSection() {
               className="relative rounded-2xl overflow-hidden border border-white/10 shadow-2xl bg-black w-full max-w-xs sm:max-w-sm"
               style={{ aspectRatio: '9 / 16' }}
             >
-              <video
-                ref={videoRef}
-                src={VIDEO_SRC}
-                autoPlay
-                muted
-                loop
-                playsInline
-                controls
-                preload="metadata"
-                className="w-full h-full object-cover"
-                style={{ display: 'block' }}
-                aria-label={lang === 'id' ? 'Video proses pengolahan kelapa sawit' : 'Palm oil processing video'}
-              />
+              {videoFailed ? (
+                <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 p-6 text-center">
+                  <img src={VIDEO_POSTER} alt="" loading="lazy" className="absolute inset-0 w-full h-full object-cover opacity-40" />
+                  <p className="relative text-sm text-slate-200">
+                    {lang === 'id' ? 'Video belum dapat diputar saat ini.' : 'The video cannot be played right now.'}
+                  </p>
+                </div>
+              ) : (
+                <video
+                  ref={videoRef}
+                  src={VIDEO_SRC}
+                  poster={VIDEO_POSTER}
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  controls
+                  preload="metadata"
+                  onError={() => setVideoFailed(true)}
+                  className="w-full h-full object-cover"
+                  style={{ display: 'block' }}
+                  aria-label={lang === 'id' ? 'Video proses pengolahan kelapa sawit' : 'Palm oil processing video'}
+                />
+              )}
               {/* Overlay sudut */}
               <div
                 aria-hidden="true"
