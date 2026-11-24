@@ -1,4 +1,5 @@
 ﻿'use client';
+import { formatNewsDate } from '@/lib/news';
 
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
@@ -34,9 +35,6 @@ export const authenticGallery = [
   { id: 23, src: '/images/internship.jpg', category: 'csr', titleId: 'Kegiatan CSR & Kemitraan', titleEn: 'CSR & Community Activities', descId: 'Kegiatan sosial perusahaan bersama masyarakat desa sekitar.', descEn: 'Company social activities with nearby village communities.' },
   { id: 24, src: '/images/about-palm.jpg', category: 'plantation', titleId: 'Sawit untuk Kehidupan', titleEn: 'Palm for Life', descId: 'Sawit sebagai sumber kehidupan masyarakat.', descEn: 'Palm as community livelihood.' },
 ];
-
-const formatPhotoDate = (value: string, lang: string) =>
-  new Intl.DateTimeFormat(lang === 'id' ? 'id-ID' : 'en-US', { dateStyle: 'long', timeZone: 'UTC' }).format(new Date(value.slice(0, 10)));
 
 type GalleryItem = {
   id: string | number;
@@ -250,7 +248,7 @@ export default function GallerySection({ isFullPage = false }: { isFullPage?: bo
                   </h3>
                   {filteredItems[activeImageIndex].takenAt && (
                     <p className="text-xs font-semibold text-amber-300">
-                      {formatPhotoDate(filteredItems[activeImageIndex].takenAt as string, lang)}
+                      {formatNewsDate(filteredItems[activeImageIndex].takenAt as string, lang)}
                     </p>
                   )}
                   {/* Deskripsi */}
@@ -291,7 +289,7 @@ export default function GallerySection({ isFullPage = false }: { isFullPage?: bo
                   {lang === 'id' ? filteredItems[activeImageIndex].titleId : filteredItems[activeImageIndex].titleEn}
                 </h3>
                 {filteredItems[activeImageIndex].takenAt && (
-                  <p className="text-[11px] font-semibold text-amber-300 mt-1">{formatPhotoDate(filteredItems[activeImageIndex].takenAt as string, lang)}</p>
+                  <p className="text-[11px] font-semibold text-amber-300 mt-1">{formatNewsDate(filteredItems[activeImageIndex].takenAt as string, lang)}</p>
                 )}
                 <p className="text-[11px] text-slate-300 mt-1">
                   {lang === 'id' ? filteredItems[activeImageIndex].descId : filteredItems[activeImageIndex].descEn}

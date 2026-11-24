@@ -61,8 +61,10 @@ export const FALLBACK_NEWS: NewsPost[] = [
   },
 ];
 
-export function formatNewsDate(value: string, lang: 'id' | 'en') {
-  return new Intl.DateTimeFormat(lang === 'id' ? 'id-ID' : 'en-US', { dateStyle: 'long', timeZone: 'UTC' }).format(new Date(value.slice(0, 10)));
+export function formatNewsDate(value: string, lang: 'id' | 'en' | string = 'id') {
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return value;
+  return new Intl.DateTimeFormat(lang === 'en' ? 'en-US' : 'id-ID', { dateStyle: 'long', timeZone: 'UTC' }).format(date);
 }
 
 export function slugify(value: string) {

@@ -1,4 +1,5 @@
 'use client';
+import { formatNewsDate } from '@/lib/news';
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { createSupabaseBrowserClient } from '@/lib/supabase/client';
@@ -262,7 +263,7 @@ export default function GalleryPage({ supabase: propSupabase }: { supabase: Retu
                 <div className="p-4">
                   <h3 className="truncate text-sm font-bold text-slate-900">{item.title_id}</h3>
                   <p className="mt-1 min-h-9 text-xs leading-5 text-slate-600">{item.description_id || 'Belum ada keterangan.'}</p>
-                  <p className="mt-2 text-[10px] text-slate-400">{item.taken_at ? `Tanggal foto: ${new Intl.DateTimeFormat('id-ID', { dateStyle: 'long', timeZone: 'UTC' }).format(new Date(item.taken_at.slice(0, 10)))}` : builtIn ? 'Foto bawaan website' : `Ditambahkan ${formatDate(item.created_at)}`}</p>
+                  <p className="mt-2 text-[10px] text-slate-400">{item.taken_at ? `Tanggal foto: ${formatNewsDate(item.taken_at)}` : builtIn ? 'Foto bawaan website' : `Ditambahkan ${formatDate(item.created_at)}`}</p>
                   <div className="mt-3 flex flex-wrap gap-2 border-t border-slate-100 pt-3">
                     <button onClick={() => openEditor(item)} className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-lg bg-emerald-900 px-3 py-2 text-xs font-bold text-white transition hover:bg-emerald-800">
                       <Pencil className="h-3.5 w-3.5" />Ubah

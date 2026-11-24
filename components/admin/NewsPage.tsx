@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { createSupabaseBrowserClient } from '@/lib/supabase/client';
 import { isSupabaseConfigured } from '@/lib/supabase/config';
 import { CalendarDays, Eye, EyeOff, ImagePlus, Newspaper, Pencil, Plus, Search, Trash2, X } from 'lucide-react';
-import { NEWS_CATEGORIES, slugify } from '@/lib/news';
+import { NEWS_CATEGORIES, formatNewsDate, slugify } from '@/lib/news';
 
 interface NewsRecord {
   id: string;
@@ -121,7 +121,7 @@ export default function NewsPage({ supabase: propSupabase }: { supabase: ReturnT
     else setNews((prev) => prev.map((x) => x.id === n.id ? { ...x, is_published: !x.is_published } : x));
   };
 
-  const fmt = (v: string) => new Intl.DateTimeFormat('id-ID', { dateStyle: 'long', timeZone: 'UTC' }).format(new Date(v.slice(0, 10)));
+  const fmt = (v: string) => formatNewsDate(v);
 
   return (
     <div className="space-y-6">
