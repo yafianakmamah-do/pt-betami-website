@@ -62,7 +62,7 @@ export const FALLBACK_NEWS: NewsPost[] = [
 ];
 
 export function formatNewsDate(value: string, lang: 'id' | 'en') {
-  return new Intl.DateTimeFormat(lang === 'id' ? 'id-ID' : 'en-US', { dateStyle: 'long' }).format(new Date(value));
+  return new Intl.DateTimeFormat(lang === 'id' ? 'id-ID' : 'en-US', { dateStyle: 'long', timeZone: 'UTC' }).format(new Date(value.slice(0, 10)));
 }
 
 export function slugify(value: string) {

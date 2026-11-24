@@ -35,6 +35,9 @@ export const authenticGallery = [
   { id: 24, src: '/images/about-palm.jpg', category: 'plantation', titleId: 'Sawit untuk Kehidupan', titleEn: 'Palm for Life', descId: 'Sawit sebagai sumber kehidupan masyarakat.', descEn: 'Palm as community livelihood.' },
 ];
 
+const formatPhotoDate = (value: string, lang: string) =>
+  new Intl.DateTimeFormat(lang === 'id' ? 'id-ID' : 'en-US', { dateStyle: 'long', timeZone: 'UTC' }).format(new Date(value.slice(0, 10)));
+
 type GalleryItem = {
   id: string | number;
   src: string;
@@ -247,7 +250,7 @@ export default function GallerySection({ isFullPage = false }: { isFullPage?: bo
                   </h3>
                   {filteredItems[activeImageIndex].takenAt && (
                     <p className="text-xs font-semibold text-amber-300">
-                      {new Intl.DateTimeFormat(lang === 'id' ? 'id-ID' : 'en-US', { dateStyle: 'long' }).format(new Date(filteredItems[activeImageIndex].takenAt as string))}
+                      {formatPhotoDate(filteredItems[activeImageIndex].takenAt as string, lang)}
                     </p>
                   )}
                   {/* Deskripsi */}
@@ -287,6 +290,9 @@ export default function GallerySection({ isFullPage = false }: { isFullPage?: bo
                 <h3 className="text-sm font-bold">
                   {lang === 'id' ? filteredItems[activeImageIndex].titleId : filteredItems[activeImageIndex].titleEn}
                 </h3>
+                {filteredItems[activeImageIndex].takenAt && (
+                  <p className="text-[11px] font-semibold text-amber-300 mt-1">{formatPhotoDate(filteredItems[activeImageIndex].takenAt as string, lang)}</p>
+                )}
                 <p className="text-[11px] text-slate-300 mt-1">
                   {lang === 'id' ? filteredItems[activeImageIndex].descId : filteredItems[activeImageIndex].descEn}
                 </p>

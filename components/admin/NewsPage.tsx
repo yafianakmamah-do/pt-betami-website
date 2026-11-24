@@ -25,7 +25,10 @@ interface NewsRecord {
 
 type NewsForm = Omit<NewsRecord, 'id' | 'created_at'> & { id?: string };
 
-const today = () => new Date().toISOString().slice(0, 10);
+const today = () => {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+};
 const emptyForm = (): NewsForm => ({
   slug: '', title_id: '', title_en: '', excerpt_id: '', excerpt_en: '', body_id: '', body_en: '',
   cover_url: '', cover_storage_path: '', category: 'perusahaan', published_at: today(), is_published: true,
@@ -118,7 +121,7 @@ export default function NewsPage({ supabase: propSupabase }: { supabase: ReturnT
     else setNews((prev) => prev.map((x) => x.id === n.id ? { ...x, is_published: !x.is_published } : x));
   };
 
-  const fmt = (v: string) => new Intl.DateTimeFormat('id-ID', { dateStyle: 'long' }).format(new Date(v));
+  const fmt = (v: string) => new Intl.DateTimeFormat('id-ID', { dateStyle: 'long', timeZone: 'UTC' }).format(new Date(v.slice(0, 10)));
 
   return (
     <div className="space-y-6">
