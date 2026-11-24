@@ -108,6 +108,23 @@ export default function MessagesPage({ supabase: propSupabase }: { supabase: Ret
     finally { setSaving(false); }
   };
 
+  const readMessages = useMemo(() => messages.filter((m) => m.status !== 'baru'), [messages]);
+
+  const deleteAllRead = async () => {
+    if (!supabase || readMessages.length === 0) return;
+    if (!window.confirm(`Hapus ${readMessages.length} pesan yang sudah dibaca/selesai? Tindakan ini tidak bisa dibatalkan.`)) return;
+    setSaving(true); setError('');
+    try {
+      const ids = readMessages.map((m) => m.id);
+      const { error: dbErr } = await supabase.from('contact_messages').delete().in('id', ids);
+      if (dbErr) throw dbErr;
+      setMessages((prev) => prev.filter((m) => !ids.includes(m.id)));
+      if (selected && ids.includes(selected.id)) setSelected(null);
+      setNotice(`${ids.length} pesan berhasil dihapus.`);
+    } catch (err: any) { setError(err.message); }
+    finally { setSaving(false); }
+  };
+
   const replyUrl = (msg: ContactMessage) => gmailReplyUrl(msg);
 
   const handleReply = (msg: ContactMessage) => {
@@ -137,9 +154,14 @@ export default function MessagesPage({ supabase: propSupabase }: { supabase: Ret
             <p className="text-xs text-slate-500">{messages.filter(m => m.status === 'baru').length} pesan belum dibaca</p>
           </div>
         </div>
-        <button onClick={load} className="inline-flex items-center gap-2 rounded-xl border border-slate-200 px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50">
-          <RefreshCw className="h-4 w-4" />Refresh
-        </button>
+        <div className="flex flex-wrap items-center gap-2">
+          <button onClick={() => void deleteAllRead()} disabled={saving || readMessages.length === 0} className="inline-flex items-center gap-2 rounded-xl border border-rose-200 px-4 py-2.5 text-sm font-semibold text-rose-600 hover:bg-rose-50 disabled:cursor-not-allowed disabled:opacity-50">
+            <Trash2 className="h-4 w-4" />Hapus yang sudah dibaca{readMessages.length > 0 ? ` (${readMessages.length})` : ''}
+          </button>
+          <button onClick={load} className="inline-flex items-center gap-2 rounded-xl border border-slate-200 px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50">
+            <RefreshCw className="h-4 w-4" />Refresh
+          </button>
+        </div>
       </div>
 
       {/* Filters */}
