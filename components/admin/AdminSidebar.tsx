@@ -6,6 +6,7 @@ import {
   LayoutDashboard, Briefcase, FileText, GraduationCap, Users, Images,
   MessageSquare, Settings, LogOut, X, ExternalLink,
   ChevronDown, ChevronRight, SlidersHorizontal,
+  Newspaper,
 } from 'lucide-react';
 import type { AdminTab } from './hooks';
 
@@ -30,6 +31,7 @@ const menuItems: { id: AdminTab; label: string; icon: React.ReactNode }[] = [
   { id: 'interns', label: 'Peserta Magang', icon: <Users className="h-5 w-5" /> },
   { id: 'gallery', label: 'Galeri Foto', icon: <Images className="h-5 w-5" /> },
   { id: 'messages', label: 'Pesan Kontak', icon: <MessageSquare className="h-5 w-5" /> },
+  { id: 'news', label: 'Berita', icon: <Newspaper className="h-5 w-5" /> },
   { id: 'content', label: 'Konten Website', icon: <FileText className="h-5 w-5" /> },
   { id: 'settings', label: 'Pengaturan', icon: <Settings className="h-5 w-5" /> },
 ];

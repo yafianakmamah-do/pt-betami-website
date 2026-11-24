@@ -35,6 +35,7 @@ Jalankan **berurutan** di Supabase → SQL Editor → New query. Skrip aman dija
 1. `supabase/schema.sql` — tabel galeri, kontak, magang, peserta magang, foto bawaan, RLS awal, bucket `betami-gallery`.
 2. `supabase/migration_admin_features.sql` — tabel `job_applications`, `job_openings`, `site_content`, bucket privat `betami-documents`.
 3. `supabase/migration_security_fix.sql` — pengamanan final: fungsi `is_admin()`, pencabutan izin tulis publik, RLS admin untuk semua tabel, serta kebijakan Storage yang benar.
+4. `supabase/migration_news_gallery_dates.sql` — kolom tanggal foto galeri (`taken_at`) dan tabel `news_posts` untuk menu Berita.
 
 Catatan: file `supabase/migration_job_applications.sql` adalah versi lama/duplikat dari bagian `job_applications`. Tidak perlu dijalankan jika sudah menjalankan `migration_admin_features.sql`.
 

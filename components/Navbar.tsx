@@ -93,6 +93,7 @@ export default function Navbar() {
     if (query.includes('karir') || query.includes('karier') || query.includes('career') || query.includes('lamaran kerja') || query.includes('lowongan')) router.push('/karir');
     else if (query.includes('magang') || query.includes('intern') || query.includes('pkl')) router.push('/magang');
     else if (query.includes('sustain') || query.includes('lestari') || query.includes('csr')) router.push('/keberlanjutan');
+    else if (query.includes('berita') || query.includes('news')) router.push('/berita');
     else if (query.includes('bisnis') || query.includes('pks') || query.includes('cpo') || query.includes('kebun') || query.includes('pabrik')) router.push('/bisnis');
     else if (query.includes('tentang') || query.includes('visi') || query.includes('profil')) router.push('/tentang-kami');
     else if (query.includes('foto') || query.includes('galeri')) router.push('/galeri');
@@ -314,6 +315,7 @@ export default function Navbar() {
             </div>
             <Link href="/keberlanjutan" className={navClass('/keberlanjutan')}>{lang === 'id' ? 'Keberlanjutan' : 'Sustainability'}</Link>
             <Link href="/galeri" className={navClass('/galeri')}>{t.nav.gallery}</Link>
+            <Link href="/berita" className={navClass('/berita')}>{lang === 'id' ? 'Berita' : 'News'}</Link>
             <Link href="/karir" className={navClass('/karir')}>{lang === 'id' ? 'Karir' : 'Careers'}</Link>
             <Link href="/magang" className={navClass('/magang')}>{lang === 'id' ? 'Magang' : 'Internship'}</Link>
             <Link href="/kontak" className={navClass('/kontak')}>{t.nav.contact}</Link>
@@ -390,13 +392,14 @@ export default function Navbar() {
               },
               { href: '/keberlanjutan', label: lang === 'id' ? 'Keberlanjutan' : 'Sustainability' },
               { href: '/galeri', label: t.nav.gallery },
+              { href: '/berita', label: lang === 'id' ? 'Berita' : 'News' },
               { href: '/karir', label: lang === 'id' ? 'Karir' : 'Careers' },
               { href: '/magang', label: lang === 'id' ? 'Magang' : 'Internship' },
               { href: '/kontak', label: t.nav.contact },
             ].map((item, index) => (
               <div key={item.href}>
                 <Link href={item.href} onClick={() => setMobileMenuOpen(false)}>
-                  <span>0{index + 1}</span>{item.label}
+                  <span>{String(index + 1).padStart(2, '0')}</span>{item.label}
                 </Link>
                 {item.children && (
                   <div className="mobile-site-menu__sub">

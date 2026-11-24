@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { createSupabaseBrowserClient } from '@/lib/supabase/client';
 import { isSupabaseConfigured } from '@/lib/supabase/config';
-import { Mail, Loader2, RefreshCw, Search, Building2, User, Clock, Eye, CheckCircle, X, Reply, ChevronDown, ChevronUp } from 'lucide-react';
+import { Mail, Loader2, RefreshCw, Search, Building2, User, Clock, Eye, CheckCircle, X, Reply, ChevronDown, ChevronUp, Trash2 } from 'lucide-react';
 
 interface ContactMessage {
   id: string;
@@ -15,6 +15,29 @@ interface ContactMessage {
   message: string;
   status: 'baru' | 'dibaca' | 'selesai';
   created_at: string;
+}
+
+function gmailReplyUrl(msg: ContactMessage) {
+  const subject = `Re: ${msg.topic || 'Pesan Anda'} - PT Benih Tamiang (BETAMI)`;
+  const quoted = msg.message.split('\n').map((line) => `> ${line}`).join('\n');
+  const body = [
+    `Yth. Bapak/Ibu ${msg.name}${msg.company ? ` (${msg.company})` : ''},`,
+    '',
+    'Terima kasih telah menghubungi kami. Kami dari PT Benih Tamiang (BETAMI) telah menerima pesan Anda mengenai "' + (msg.topic || '-') + '".',
+    '',
+    '[Tulis jawaban Anda di sini]',
+    '',
+    'Apabila ada hal lain yang ingin ditanyakan, silakan balas email ini.',
+    '',
+    'Hormat kami,',
+    'PT Benih Tamiang (BETAMI)',
+    'Pabrik Kelapa Sawit - Kec. Rantau, Aceh Tamiang',
+    '',
+    '--- Pesan Anda ---',
+    quoted,
+  ].join('\n');
+  const params = new URLSearchParams({ view: 'cm', fs: '1', to: msg.email, su: subject, body });
+  return `https://mail.google.com/mail/?${params.toString()}`;
 }
 
 const statusLabels: Record<string, string> = {
@@ -69,6 +92,27 @@ export default function MessagesPage({ supabase: propSupabase }: { supabase: Ret
       setNotice(`Status berhasil diubah ke "${statusLabels[newStatus]}".`);
     } catch (err: any) { setError(err.message); }
     finally { setSaving(false); }
+  };
+
+  const deleteMessage = async (msg: ContactMessage) => {
+    if (!supabase) return;
+    if (!window.confirm(`Hapus pesan dari ${msg.name}? Tindakan ini tidak bisa dibatalkan.`)) return;
+    setSaving(true); setError('');
+    try {
+      const { error: dbErr } = await supabase.from('contact_messages').delete().eq('id', msg.id);
+      if (dbErr) throw dbErr;
+      setMessages((prev) => prev.filter((m) => m.id !== msg.id));
+      if (selected?.id === msg.id) setSelected(null);
+      setNotice('Pesan berhasil dihapus.');
+    } catch (err: any) { setError(err.message); }
+    finally { setSaving(false); }
+  };
+
+  const replyUrl = (msg: ContactMessage) => gmailReplyUrl(msg);
+
+  const handleReply = (msg: ContactMessage) => {
+    window.open(replyUrl(msg), '_blank', 'noopener,noreferrer');
+    if (msg.status !== 'selesai') void updateStatus(msg, 'selesai');
   };
 
   const formatDate = (v: string) => {
@@ -156,6 +200,8 @@ export default function MessagesPage({ supabase: propSupabase }: { supabase: Ret
                     <button onClick={() => void updateStatus(msg, 'selesai')} className="rounded-lg border border-emerald-200 px-3 py-2 text-xs font-bold text-emerald-700 hover:bg-emerald-50">Selesai</button>
                   )}
                   <button onClick={() => setSelected(msg)} className="rounded-lg border border-slate-200 px-3 py-2 text-xs font-bold text-slate-700 hover:bg-slate-50">Detail</button>
+                  <button onClick={() => handleReply(msg)} title="Balas lewat Gmail" className="inline-flex items-center gap-1 rounded-lg border border-red-200 px-3 py-2 text-xs font-bold text-red-600 hover:bg-red-50"><Reply className="h-3.5 w-3.5" />Balas</button>
+                  <button onClick={() => void deleteMessage(msg)} disabled={saving} title="Hapus pesan" aria-label="Hapus pesan" className="rounded-lg border border-rose-200 px-2.5 py-2 text-rose-600 hover:bg-rose-50 disabled:opacity-50"><Trash2 className="h-3.5 w-3.5" /></button>
                 </div>
               </div>
             </div>
@@ -213,9 +259,12 @@ export default function MessagesPage({ supabase: propSupabase }: { supabase: Ret
                   {selected.status !== 'selesai' && (
                     <button onClick={() => void updateStatus(selected, 'selesai')} disabled={saving} className="rounded-xl bg-emerald-600 px-4 py-2.5 text-sm font-bold text-white hover:bg-emerald-500 disabled:opacity-50">Tandai Selesai</button>
                   )}
-                  <a href={`mailto:${selected.email}`} className="rounded-xl border border-slate-300 px-4 py-2.5 text-sm font-bold text-slate-700 hover:bg-slate-50 inline-flex items-center gap-2">
-                    <Reply className="h-4 w-4" />Balas
-                  </a>
+                  <button onClick={() => void deleteMessage(selected)} disabled={saving} className="rounded-xl border border-rose-200 px-4 py-2.5 text-sm font-bold text-rose-600 hover:bg-rose-50 disabled:opacity-50 inline-flex items-center gap-2">
+                    <Trash2 className="h-4 w-4" />Hapus
+                  </button>
+                  <button onClick={() => handleReply(selected)} className="rounded-xl bg-red-600 px-4 py-2.5 text-sm font-bold text-white hover:bg-red-500 inline-flex items-center gap-2">
+                    <Reply className="h-4 w-4" />Balas via Gmail
+                  </button>
                 </div>
               </div>
             </div>

@@ -10,7 +10,7 @@ export async function POST(request: Request) {
 
   try {
     const body = await request.json();
-    const { image_url, storage_path, category, title_id, title_en, description_id, description_en } = body;
+    const { image_url, storage_path, category, title_id, title_en, description_id, description_en, taken_at } = body;
 
     if (!image_url || !storage_path || !category || !title_id || !description_id) {
       return Response.json({ error: 'Field wajib tidak lengkap.' }, { status: 400 });
@@ -27,6 +27,7 @@ export async function POST(request: Request) {
         description_id,
         description_en: description_en || description_id,
         is_published: true,
+        ...(taken_at ? { taken_at } : {}),
       })
       .select()
       .single();
@@ -53,7 +54,7 @@ export async function PATCH(request: Request) {
 
   try {
     const body = await request.json();
-    const { id, category, title_id, title_en, description_id, description_en, image_url, storage_path, is_published } = body;
+    const { id, category, title_id, title_en, description_id, description_en, image_url, storage_path, is_published, taken_at } = body;
 
     if (!id) {
       return Response.json({ error: 'ID wajib disertakan.' }, { status: 400 });
@@ -68,6 +69,7 @@ export async function PATCH(request: Request) {
     if (image_url !== undefined) updates.image_url = image_url;
     if (storage_path !== undefined) updates.storage_path = storage_path;
     if (is_published !== undefined) updates.is_published = is_published;
+    if (taken_at !== undefined) updates.taken_at = taken_at || null;
 
     const { data, error } = await supabase
       .from('gallery_items')

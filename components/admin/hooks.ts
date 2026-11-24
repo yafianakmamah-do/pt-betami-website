@@ -12,6 +12,7 @@ export interface GalleryItem {
   description_id: string;
   description_en: string;
   is_published: boolean;
+  taken_at?: string | null;
   created_at: string;
 }
 
@@ -89,6 +90,7 @@ export type AdminTab =
   | 'interns'
   | 'gallery'
   | 'messages'
+  | 'news'
   | 'content'
   | 'settings';
 

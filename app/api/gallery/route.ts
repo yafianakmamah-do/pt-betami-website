@@ -10,7 +10,7 @@ export async function GET() {
   const supabase = createClient(url, anonKey, { auth: { persistSession: false, autoRefreshToken: false } });
   const { data, error } = await supabase
     .from('gallery_items')
-    .select('id,image_url,storage_path,category,title_id,title_en,description_id,description_en')
+    .select('*')
     .eq('is_published', true)
     .order('created_at', { ascending: false });
 
