@@ -4,7 +4,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import { useLanguage } from '@/lib/LanguageContext';
 
 const VIDEO_SRC = '/videos/proses-sawit.mp4';
-const VIDEO_POSTER = '/images/pks-factory-real.jpg';
+const VIDEO_POSTER = '/videos/proses-sawit-poster.jpg';
 
 const teks = {
   id: {
@@ -136,7 +136,7 @@ export default function ProsesSawitSection() {
             >
               {videoFailed ? (
                 <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 p-6 text-center">
-                  <img src={VIDEO_POSTER} alt="" className="absolute inset-0 w-full h-full object-cover opacity-40" />
+                  <img src={VIDEO_POSTER} alt="" loading="lazy" className="absolute inset-0 w-full h-full object-cover opacity-40" />
                   <p className="relative text-sm text-slate-200">
                     {lang === 'id' ? 'Video belum dapat diputar saat ini.' : 'The video cannot be played right now.'}
                   </p>
