@@ -8,6 +8,7 @@ import CTASection from '@/components/CTASection';
 import VideoSection from '@/components/VideoSection';
 import ProsesSawitSection from '@/components/ProsesSawitSection';
 import SustainabilitySection from '@/components/SustainabilitySection';
+import LocationSection from '@/components/LocationSection';
 
 export default function HomePage() {
   return (
@@ -37,6 +38,9 @@ export default function HomePage() {
 
       {/* 6. Galeri */}
       <GallerySection isFullPage={false} />
+
+      {/* 6b. Lokasi & Google Maps */}
+      <LocationSection />
 
       {/* 7. CTA Ajakan Kolaborasi */}
       <CTASection />
