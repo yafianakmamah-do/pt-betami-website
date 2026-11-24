@@ -20,7 +20,8 @@ export async function GET(request: Request) {
     else items = data as NewsPost[];
   }
 
-  const all = [...items, ...FALLBACK_NEWS.filter((f) => !items.some((i) => i.slug === f.slug))];
+  const all = [...items, ...FALLBACK_NEWS.filter((f) => !items.some((i) => i.slug === f.slug))]
+    .sort((a, b) => b.published_at.localeCompare(a.published_at));
 
   if (slug) {
     const item = all.find((n) => n.slug === slug);
