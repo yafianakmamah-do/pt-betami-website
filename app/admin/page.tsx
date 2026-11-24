@@ -16,6 +16,7 @@ import JobsPage from '@/components/admin/JobsPage';
 import InternshipPage from '@/components/admin/InternshipPage';
 import InternsPage from '@/components/admin/InternsPage';
 import GalleryPage from '@/components/admin/GalleryPage';
+import NewsPage from '@/components/admin/NewsPage';
 import MessagesPage from '@/components/admin/MessagesPage';
 import ContentPage from '@/components/admin/ContentPage';
 import SettingsPage from '@/components/admin/SettingsPage';
@@ -198,6 +199,7 @@ export default function AdminPage() {
       case 'interns': return <InternsPage supabase={supabase} />;
       case 'gallery': return <GalleryPage supabase={supabase} />;
       case 'messages': return <MessagesPage supabase={supabase} />;
+      case 'news': return <NewsPage supabase={supabase} />;
       case 'content': return <ContentPage supabase={supabase} />;
       case 'settings': return <SettingsPage supabase={supabase} userEmail={userEmail} />;
       default: return <DashboardOverview data={null} loading={false} error="" />;

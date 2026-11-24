@@ -90,6 +90,7 @@ export type AdminTab =
   | 'interns'
   | 'gallery'
   | 'messages'
+  | 'news'
   | 'content'
   | 'settings';
 
