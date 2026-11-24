@@ -41,8 +41,8 @@ export default function SustainabilityPage() {
             ); })}
           </div>
           <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="relative aspect-[16/10] rounded-xl overflow-hidden border border-slate-200"><Image src="/images/kegiatan/csr-betami-juli-2026.jpeg" alt={lang === 'id' ? 'Kegiatan CSR PT BETAMI' : 'PT BETAMI CSR activity'} fill quality={75} className="object-cover" /></div>
-            <div className="relative aspect-[16/10] rounded-xl overflow-hidden border border-slate-200"><Image src="/images/kegiatan/csr-sembako-betami.jpg" alt={lang === 'id' ? 'Bantuan sembako PT BETAMI' : 'PT BETAMI food aid distribution'} fill quality={75} className="object-cover" /></div>
+            <div className="relative aspect-[16/10] rounded-xl overflow-hidden border border-slate-200"><Image src="/images/kegiatan/csr-betami-juli-2026.jpeg" alt={lang === 'id' ? 'Kegiatan CSR PT BETAMI' : 'PT BETAMI CSR activity'} fill quality={75} sizes="(max-width: 768px) 100vw, 50vw" className="object-cover" /></div>
+            <div className="relative aspect-[16/10] rounded-xl overflow-hidden border border-slate-200"><Image src="/images/kegiatan/csr-sembako-betami.jpg" alt={lang === 'id' ? 'Bantuan sembako PT BETAMI' : 'PT BETAMI food aid distribution'} fill quality={75} sizes="(max-width: 768px) 100vw, 50vw" className="object-cover" /></div>
           </div>
           <p className="text-[11px] text-slate-500 mt-2 italic">{lang === 'id' ? 'Dokumentasi bersumber dari pemberitaan publik kegiatan sosial PT BETAMI. Klaim keberlanjutan bersertifikat (mis. ISPO/RSPO) tidak dicantumkan tanpa verifikasi resmi.' : 'Documentation sourced from public reports of PT BETAMI social activities. Certified sustainability claims (e.g. ISPO/RSPO) are not stated without official verification.'}</p>
         </div>

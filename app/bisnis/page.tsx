@@ -31,7 +31,7 @@ export default function BusinessPage() {
             return (
               <div key={p.id} id={p.id} className={`business-chapter grid grid-cols-1 lg:grid-cols-12 gap-8 items-center scroll-mt-40 ${i % 2 === 1 ? '' : ''}`}>
                 <div className={`lg:col-span-6 ${i % 2 === 1 ? 'lg:order-2' : ''}`}>
-                  <div className="relative aspect-[4/3] w-full overflow-hidden rounded-xl shadow-md border border-slate-200"><Image src={p.img} alt={p.title} fill quality={75} className="object-cover" /></div>
+                  <div className="relative aspect-[4/3] w-full overflow-hidden rounded-xl shadow-md border border-slate-200"><Image src={p.img} alt={p.title} fill quality={75} sizes="(max-width: 1024px) 100vw, 50vw" className="object-cover" /></div>
                 </div>
                 <div className={`lg:col-span-6 ${i % 2 === 1 ? 'lg:order-1' : ''}`}>
                   <div className="w-11 h-11 rounded-lg bg-teal-50 text-teal-700 flex items-center justify-center mb-3 border border-teal-100"><Icon className="w-5 h-5" /></div>

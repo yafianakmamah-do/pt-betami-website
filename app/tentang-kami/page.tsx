@@ -74,8 +74,8 @@ export default function AboutPage() {
             ))}
           </div>
           <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="relative aspect-[16/9] rounded-xl overflow-hidden border border-slate-200"><Image src="/images/kegiatan/csr-betami-juli-2026.jpeg" alt={lang === 'id' ? 'Kegiatan sosial PT BETAMI' : 'PT BETAMI community initiative'} fill quality={75} className="object-cover" /></div>
-            <div className="relative aspect-[16/9] rounded-xl overflow-hidden border border-slate-200"><Image src="/images/kegiatan/csr-sembako-betami.jpg" alt={lang === 'id' ? 'Penyaluran bantuan PT BETAMI' : 'PT BETAMI community aid distribution'} fill quality={75} className="object-cover" /></div>
+            <div className="relative aspect-[16/9] rounded-xl overflow-hidden border border-slate-200"><Image src="/images/kegiatan/csr-betami-juli-2026.jpeg" alt={lang === 'id' ? 'Kegiatan sosial PT BETAMI' : 'PT BETAMI community initiative'} fill quality={75} sizes="(max-width: 768px) 100vw, 50vw" className="object-cover" /></div>
+            <div className="relative aspect-[16/9] rounded-xl overflow-hidden border border-slate-200"><Image src="/images/kegiatan/csr-sembako-betami.jpg" alt={lang === 'id' ? 'Penyaluran bantuan PT BETAMI' : 'PT BETAMI community aid distribution'} fill quality={75} sizes="(max-width: 768px) 100vw, 50vw" className="object-cover" /></div>
           </div>
           <p className="text-[11px] text-slate-500 mt-2">{lang === 'id' ? 'Sumber foto: dokumentasi/pemberitaan publik terkait kegiatan PT BETAMI.' : 'Photo source: public documentation and reporting on PT BETAMI activities.'}</p>
         </div>

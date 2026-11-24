@@ -64,7 +64,7 @@ export default function VideoSection() {
                 src="https://www.youtube.com/embed/mjlaG1900_8?rel=0&modestbranding=1"
                 title={lang === 'id' ? 'Video Proses Kelapa Sawit' : 'Palm Oil Process Video'}
                 loading="lazy"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 referrerPolicy="strict-origin-when-cross-origin"
                 allowFullScreen
               />
