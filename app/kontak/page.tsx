@@ -309,7 +309,7 @@ export default function ContactPage() {
                   </button>
                 </motion.div>
               ) : (
-                <form onSubmit={handleSubmit} className="mt-7 space-y-5" noValidate>
+                <form onSubmit={handleSubmit} className="mt-7 space-y-5">
                   <div className="grid gap-5 sm:grid-cols-2">
                     <Field label={`${t.fieldName} *`} icon={User} error={fieldErrors.name}>
                       <input type="text" placeholder={id ? 'Nama lengkap' : 'Full name'} value={formData.name}
