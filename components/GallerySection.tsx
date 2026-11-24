@@ -44,6 +44,7 @@ type GalleryItem = {
   descId: string;
   descEn: string;
   sourceKey?: string;
+  takenAt?: string | null;
 };
 
 export default function GallerySection({ isFullPage = false }: { isFullPage?: boolean }) {
@@ -75,6 +76,7 @@ export default function GallerySection({ isFullPage = false }: { isFullPage?: bo
             title_en: string;
             description_id: string;
             description_en: string;
+            taken_at?: string | null;
           }>;
           error?: string;
         };
@@ -88,6 +90,7 @@ export default function GallerySection({ isFullPage = false }: { isFullPage?: bo
             titleEn: item.title_en,
             descId: item.description_id,
             descEn: item.description_en,
+            takenAt: item.taken_at ?? null,
             sourceKey: getBuiltInGalleryNumber(item.id) ? `builtin:${getBuiltInGalleryNumber(item.id)}` : undefined,
           })));
         }
@@ -242,6 +245,11 @@ export default function GallerySection({ isFullPage = false }: { isFullPage?: bo
                   <h3 className="text-xl font-extrabold leading-tight tracking-tight text-white">
                     {lang === 'id' ? filteredItems[activeImageIndex].titleId : filteredItems[activeImageIndex].titleEn}
                   </h3>
+                  {filteredItems[activeImageIndex].takenAt && (
+                    <p className="text-xs font-semibold text-amber-300">
+                      {new Intl.DateTimeFormat(lang === 'id' ? 'id-ID' : 'en-US', { dateStyle: 'long' }).format(new Date(filteredItems[activeImageIndex].takenAt as string))}
+                    </p>
+                  )}
                   {/* Deskripsi */}
                   <p className="text-sm text-slate-300 leading-relaxed">
                     {lang === 'id' ? filteredItems[activeImageIndex].descId : filteredItems[activeImageIndex].descEn}

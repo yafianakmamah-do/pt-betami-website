@@ -24,6 +24,7 @@ export default function GalleryPage({ supabase: propSupabase }: { supabase: Retu
   const [notice, setNotice] = useState('');
   const [search, setSearch] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('all');
+  const [uploadTakenAt, setUploadTakenAt] = useState('');
   const [editing, setEditing] = useState<GalleryRecord | null>(null);
   const [replacementPhoto, setReplacementPhoto] = useState<File | null>(null);
   const [showUpload, setShowUpload] = useState(false);
@@ -74,10 +75,10 @@ export default function GalleryPage({ supabase: propSupabase }: { supabase: Retu
     try {
       const res = await fetch('/api/admin/gallery', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ image_url: imageUrl, storage_path: storagePath, category: uploadCategory, title_id: uploadTitleId, title_en: uploadTitleEn || uploadTitleId, description_id: uploadDescId, description_en: uploadDescEn || uploadDescId }),
+        body: JSON.stringify({ image_url: imageUrl, storage_path: storagePath, category: uploadCategory, title_id: uploadTitleId, title_en: uploadTitleEn || uploadTitleId, description_id: uploadDescId, description_en: uploadDescEn || uploadDescId, ...(uploadTakenAt ? { taken_at: uploadTakenAt } : {}) }),
       });
       if (!res.ok) { const j = await res.json(); throw new Error(j.error || 'Gagal menyimpan.'); }
-      setUploadPhoto(null); setUploadTitleId(''); setUploadTitleEn(''); setUploadDescId(''); setUploadDescEn('');
+      setUploadPhoto(null); setUploadTitleId(''); setUploadTitleEn(''); setUploadDescId(''); setUploadDescEn(''); setUploadTakenAt('');
       setNotice('Foto berhasil ditambahkan!'); await load();
     } catch (err: any) {
       await supabase.storage.from('betami-gallery').remove([storagePath]);
@@ -108,7 +109,7 @@ export default function GalleryPage({ supabase: propSupabase }: { supabase: Retu
       }
       const res = await fetch('/api/admin/gallery', {
         method: 'PATCH', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id: editing.id, category: editing.category, title_id: editing.title_id, title_en: editing.title_en || editing.title_id, description_id: editing.description_id, description_en: editing.description_en || editing.description_id, ...replacement }),
+        body: JSON.stringify({ id: editing.id, category: editing.category, title_id: editing.title_id, title_en: editing.title_en || editing.title_id, description_id: editing.description_id, description_en: editing.description_en || editing.description_id, taken_at: editing.taken_at || null, ...replacement }),
       });
       if (!res.ok) { const j = await res.json(); throw new Error(j.error || 'Gagal menyimpan.'); }
       setGallery((prev) => prev.map((item) => item.id === editing.id ? { ...item, ...editing, ...replacement } : item));
@@ -190,6 +191,10 @@ export default function GalleryPage({ supabase: propSupabase }: { supabase: Retu
                 <textarea maxLength={500} rows={2} value={uploadDescEn} onChange={(e) => setUploadDescEn(e.target.value)} placeholder="Opsional" className="mt-1 w-full rounded-xl border border-slate-300 px-3 py-2.5 text-sm outline-none focus:border-emerald-600 focus:ring-2 focus:ring-emerald-600/10" />
               </div>
               <div>
+                <label className="block text-xs font-semibold text-slate-700">Tanggal Foto</label>
+                <input type="date" value={uploadTakenAt} onChange={(e) => setUploadTakenAt(e.target.value)} className="mt-1 w-full rounded-xl border border-slate-300 px-3 py-2.5 text-sm outline-none focus:border-emerald-600 focus:ring-2 focus:ring-emerald-600/10" />
+              </div>
+              <div>
                 <label className="block text-xs font-semibold text-slate-700">File Foto</label>
                 <div className="mt-1 flex min-h-[46px] cursor-pointer items-center justify-center rounded-xl border border-dashed border-slate-300 bg-slate-50 px-4 text-center transition hover:border-emerald-500 hover:bg-emerald-50/50" onClick={() => document.getElementById('gallery-upload-input')?.click()}>
                   <input id="gallery-upload-input" type="file" accept="image/jpeg,image/png,image/webp" onChange={(e) => setUploadPhoto(e.target.files?.[0] ?? null)} className="sr-only" />
@@ -257,7 +262,7 @@ export default function GalleryPage({ supabase: propSupabase }: { supabase: Retu
                 <div className="p-4">
                   <h3 className="truncate text-sm font-bold text-slate-900">{item.title_id}</h3>
                   <p className="mt-1 min-h-9 text-xs leading-5 text-slate-600">{item.description_id || 'Belum ada keterangan.'}</p>
-                  <p className="mt-2 text-[10px] text-slate-400">{builtIn ? 'Foto bawaan website' : `Ditambahkan ${formatDate(item.created_at)}`}</p>
+                  <p className="mt-2 text-[10px] text-slate-400">{item.taken_at ? `Tanggal foto: ${new Intl.DateTimeFormat('id-ID', { dateStyle: 'long' }).format(new Date(item.taken_at))}` : builtIn ? 'Foto bawaan website' : `Ditambahkan ${formatDate(item.created_at)}`}</p>
                   <div className="mt-3 flex flex-wrap gap-2 border-t border-slate-100 pt-3">
                     <button onClick={() => openEditor(item)} className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-lg bg-emerald-900 px-3 py-2 text-xs font-bold text-white transition hover:bg-emerald-800">
                       <Pencil className="h-3.5 w-3.5" />Ubah
@@ -320,6 +325,9 @@ export default function GalleryPage({ supabase: propSupabase }: { supabase: Retu
                   </label>
                   <label className="block text-sm font-semibold text-slate-800">Keterangan Inggris
                     <textarea maxLength={500} rows={3} value={editing.description_en} onChange={(e) => setEditing({ ...editing, description_en: e.target.value })} placeholder="Opsional" className="mt-1 w-full rounded-xl border border-slate-300 px-3 py-2 text-sm outline-none focus:border-emerald-600 focus:ring-2 focus:ring-emerald-600/10" />
+                  </label>
+                  <label className="block text-xs font-semibold text-slate-600">Tanggal Foto
+                    <input type="date" value={editing.taken_at ? editing.taken_at.slice(0, 10) : ''} onChange={(e) => setEditing({ ...editing, taken_at: e.target.value || null })} className="mt-1 w-full rounded-xl border border-slate-300 px-3 py-2.5 text-sm outline-none focus:border-emerald-600 focus:ring-2 focus:ring-emerald-600/10" />
                   </label>
                 </div>
               </div>
